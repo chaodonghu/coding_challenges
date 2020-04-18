@@ -5,9 +5,8 @@
 
 // For example, the string “AAAABBBCCDAA” would be encoded as “4A3B2C1D2A”.
 
-// Implement run-length encoding and decoding.
+// Implement run-length encoding.
 // You can assume the string to be encoded have no digits and consists solely of alphabetic characters.
-// You can assume the string to be decoded is valid.
 
 const encoding_string = string => {
   if (string.length === 0) return "";
