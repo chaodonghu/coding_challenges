@@ -27,3 +27,6 @@ var maxSubArray = function(nums) {
 
   return globalMax;
 };
+
+// Time complexity -> O(N) as were going through all the elements once
+// Space complexity -> O(1) as we aren't creating any new datastructures, were reutilizing the same array
