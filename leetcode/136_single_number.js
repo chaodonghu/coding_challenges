@@ -17,16 +17,39 @@
  * @param {number[]} nums
  * @return {number}
  */
-var singleNumber = function(nums) {
+
+// Approach 1: Hash Table
+var singleNumber = function (nums) {
+  // utilize hashmap to avoid the O(N) time required for searching the elements
   const numsHash = {};
 
+  // loop through nums array and add to hash map to setup a key/value pair
   for (const num of nums) {
-    numsHash[num] = numsHash[num] + 1;
+    if (numsHash[num]) {
+      numsHash[num] += 1;
+    } else {
+      numsHash[num] = 1;
+    }
   }
 
-  for (const num of nums) {
-    if (numsHash[num] < 2) {
-      return num
+  // iterate through hash map and return the element which appears once
+  for (const i in numsHash) {
+    if (numsHash[i] < 2) {
+      return i;
     }
   }
 };
+
+// Time complexity: O(N), loop through the entire array of nums and add to hashmap then utilize the hash map to pop the desired element O(1)
+// Space complexity: O(N), the space required by the hash table is proportional to the number of elements in nums
+
+// Approach 2:  Math
+var singleNumber = function (nums) {
+  // Concept is that -> 2 * (a + b + c) - (a + a + b + b + c) = c
+  return (
+    2 * [...new Set(nums)].reduce((a, b) => a + b, 0) -
+    nums.reduce((a, b) => a + b, 0)
+  );
+};
+// Time complexity: O(N), create a new set from the array and utilize reduce to iterate through the set
+// Space complexity: O(N), create a new unique array set
