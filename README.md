@@ -1,3 +1,3 @@
 # Coding Challenges/Algorithms
 
-Repo to house my progress on leetcode challenges and random algorithms.
+Tracks my progress and completion of leetcode challenges and random algorithms acquired for interview prep.
