@@ -11,7 +11,10 @@ function lengthOfLIS(nums) {
     list.push(1);
     // make another pointer and make it end at the length of the i
     for (var j = 0; j < i; j++) {
+      // second pointer needs to be greater or equal to the first pointer
+      // if the element is not greater then increase the pointer
       if (nums[j] < nums[i]) {
+        // get the max of the subarrays (list[i] and list[j] + 1)
         list[i] = Math.max(list[i], list[j] + 1);
       }
     }
