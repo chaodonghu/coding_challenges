@@ -35,3 +35,22 @@ var subsets = function(nums) {
     helper(0, [], output);
     return output;
 };
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+// Iterative solution
+var subsets = function(nums) {
+    let output = [[]];
+
+    let n = nums.length;
+
+    for (num of nums) {
+        for(curr of output) {
+            output = [...output, [...curr, num]];
+        }
+    }
+
+    return output;
+}
