@@ -23,30 +23,28 @@
  * @param {number} n
  * @return {number}
  */
-var myPow = function(x, n) {
-
-    var recur = function(y , i) {
-        if (i == 0) {
-            return 1;
-        } else if (i == 1) {
-            return y;
-        }
-
-        let temp = recur(y, Math.floor(i/2));
-
-        if (i % 2 == 1) {
-            return temp * temp * y;
-        }
-        return temp * temp;
+var myPow = function (x, n) {
+  var recur = function (y, n) {
+    if (n == 0) {
+      return 1;
+    } else if (n == 1) {
+      return y;
     }
 
+    let temp = recur(y, Math.floor(n / 2));
 
-    let y = x;
-    // if n is a negative number
-    if (n < 0) {
-        y = 1/x;
-        n = -1 * n;
+    if (n % 2 == 1) {
+      return temp * temp * y;
     }
+    return temp * temp;
+  };
 
-    return recur(y, n);
+  let y = x;
+  // if n is a negative number
+  if (n < 0) {
+    y = 1 / x;
+    n = -1 * n;
+  }
+
+  return recur(y, n);
 };
