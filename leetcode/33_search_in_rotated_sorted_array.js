@@ -23,40 +23,30 @@
  * @return {number}
  */
 
-var search = function(nums, target) {
-  if (nums.length === 0) return -1;
+var search = function (nums, target) {
+  if (!nums.length) return -1;
 
   let low = 0;
   let high = nums.length - 1;
 
   while (low <= high) {
-    console.log('low', low);
-    console.log('high', high);
     let mid = Math.floor((low + high) / 2);
-    console.log('mid', mid);
+    // if our mid equals our target then just return that index
     if (nums[mid] === target) {
       return mid;
-    }
-
-    if (nums[low] <= nums[mid]) {
-      console.log('yur')
-      if (nums[low] <= target <= nums[mid]) {
-        // value of our index low is less than our value at index mid
-        // move high pointer to the left of the mid
-        high = mid - 1;
-      } else {
-        // if the value of our index low is greater than our value at the index mid
-        // move low pointer to the right of the mid
-        low = mid + 1;
-      }
+    } else if (
+      // (1) value of our index low is less than or equal to our target and the target is less than the value at the mid
+      // (2) value of our index low is greater than the value at our index mid and the value at the index low is less than or equal to our target or the target is less than our nums mid
+      (nums[low] <= target && target < nums[mid]) ||
+      (nums[low] > nums[mid] && (nums[low] <= target || target < nums[mid]))
+    ) {
+      high = mid - 1;
     } else {
-      if (nums[mid] <= target <= nums[high]) {
-        // value of our index high is greater than our value at index mid
-        low = mid + 1;
-      } else {
-        // value of our index high is less than our value at index mid
-        high = mid - 1;
-      }
+      // if the value of our index low is greater than our value at the index mid
+      // move low pointer to the right of the mid
+
+      // value of our index high is greater than our value at index mid
+      low = mid + 1;
     }
   }
   return -1;
