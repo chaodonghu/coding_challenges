@@ -26,6 +26,8 @@ var zigzagLevelOrder = function (root) {
     // go to the left and the right of the root and increment the level
     dfs(node.left, level + 1, output);
     dfs(node.right, level + 1, output);
+
+    // if the level is even
     if (level % 2 === 0) {
       output[level].push(node.val);
     } else {
