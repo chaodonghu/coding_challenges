@@ -27,13 +27,32 @@
  * @param {number} n
  * @return {number}
  */
-let seenMap = {}
 
-var climbStairs = function(n) {
+// recursively
+let seenMap = {};
+
+var climbStairs = function (n) {
   if (n < 3) return n;
   if (!(n in seenMap)) {
-    seenMap[n] = climbStairs(n-1) + climbStairs(n-2);
+    seenMap[n] = climbStairs(n - 1) + climbStairs(n - 2);
   }
 
   return seenMap[n];
-}
+};
+
+// iteratively
+var climbStairs = function (n) {
+  if (n <= 2) return n;
+
+  let prev1 = 1;
+  let prev2 = 2;
+  let current = 0;
+
+  for (let i = 2; i < n; i++) {
+    current = prev1 + prev2;
+    prev1 = prev2;
+    prev2 = current;
+  }
+
+  return current;
+};
