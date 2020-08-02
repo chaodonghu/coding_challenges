@@ -29,7 +29,7 @@
 
 var detectCapitalUse = function (word) {
   // return true if the whole word equals the word in uppercase
-  // return true if we split just the first character which should be capitalized plus the rest of the string in lower case
+  // return true if we split just the first character which should be capitalized plus the rest of the string in lower casesp
   return (
     word === word.toUpperCase() ||
     word === word[0] + word.substr(1).toLowerCase()
