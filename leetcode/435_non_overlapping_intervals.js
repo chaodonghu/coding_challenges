@@ -33,19 +33,26 @@ var eraseOverlapIntervals = function (intervals) {
 
   if (intervals.length < 1) return removals;
 
+  // sort the intervals by their starting coordinate
   intervals.sort((a, b) => a[0] - b[0]);
 
-  let slow = 0;
-  let fast = 1;
+  let prevEnd = intervals[0][1];
 
-  while (fast < intervals.length) {
-    if (intervals[fast][0] < intervals[slow][1]) {
-      ++removals;
+  for (let i = 1; i < intervals.length; i++) {
+    // get this start and end
+    let thisStart = intervals[i][0];
+    let thisEnd = intervals[i][1];
 
-      if (intervals[fast][1] < intervals[slow][1]) slow = fast;
-    } else slow = fast;
-
-    ++fast;
+    // if this start is less than the previous end
+    // (1) increment counter
+    // (2) set the previous end to the min of prevEnd and thisEnd, remove the greater coordinate
+    if (thisStart < prevEnd) {
+      removals++;
+      prevEnd = Math.min(prevEnd, thisEnd);
+    } else {
+      // set the previous end to this end, move forward
+      prevEnd = thisEnd;
+    }
   }
 
   return removals;
