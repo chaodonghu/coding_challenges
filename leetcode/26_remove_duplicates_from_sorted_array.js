@@ -45,8 +45,6 @@ var removeDuplicates = function (nums) {
     // if the current element does not equal the next element
     if (nums[j] !== nums[j + 1]) {
       // set the first pointer current element to the current element
-      console.log("nums[i]", nums[i]);
-      console.log("nums[j]", nums[j]);
       nums[i] = nums[j];
       // increment first pointer
       i++;
