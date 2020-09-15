@@ -37,15 +37,22 @@
  * @param {number[]} nums
  * @return {number}
  */
-var removeDuplicates = function(nums) {
-    let i = 0;
+var removeDuplicates = function (nums) {
+  // instantiate first pointer
+  let i = 0;
 
-    for (let j = 0; j < nums.length; j++) {
-        if (nums[j] !== nums[j + 1]) {
-            nums[i] = nums[j];
-            i++
-        }
+  for (let j = 0; j < nums.length; j++) {
+    // if the current element does not equal the next element
+    if (nums[j] !== nums[j + 1]) {
+      // set the first pointer current element to the current element
+      console.log("nums[i]", nums[i]);
+      console.log("nums[j]", nums[j]);
+      nums[i] = nums[j];
+      // increment first pointer
+      i++;
     }
+  }
 
-    return i;
+  // return the first pointer;
+  return i;
 };
