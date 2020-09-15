@@ -35,3 +35,19 @@ var rob = function(nums) {
   });
   return prevMax;
 };
+
+var rob = function(nums) {
+  if (!nums.length) return 0;
+
+  let size = nums.length;
+  let A = new Array(size);
+
+  A[0] = nums[0];
+  A[1] = Math.max(A[0], nums[1]);
+  for (let i = 2; i < nums.length; i++) {
+    // the current element is either the max of the previous element or the 2 previous element plus current element in nums
+    A[i] = Math.max(A[i - 1], A[i - 2] + nums[i]);
+  }
+
+  return A[size - 1];
+};
