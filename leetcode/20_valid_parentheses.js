@@ -32,25 +32,33 @@
  * @return {boolean}
  */
 const map = {
-    "(": ")",
-    "[": "]",
-    "{": "}"
-}
+  "(": ")",
+  "[": "]",
+  "{": "}",
+};
 
 const isValid = (s) => {
-    const stack = [];
+  // initiate stack
+  const stack = [];
 
-    for (let i = 0; i < s.length; i++) {
-        const el = s[i];
+  // loop through string
+  for (let i = 0; i < s.length; i++) {
+    // get the current element
+    const el = s[i];
 
-        if (map[el]) {
-            stack.push(map[el]);
-        } else {
-            if (el !== stack.pop()) {
-                return false;
-            }
-        }
+    // if the parentheses' complement is in our map
+    if (map[el]) {
+      // then push the complement into the stack
+      stack.push(map[el]);
+    } else {
+      // the element is not an opening bracket but a closing bracket
+      // if the element is not the last element on our stack then return false
+      if (el !== stack.pop()) {
+        return false;
+      }
     }
+  }
 
-    return stack.length === 0;
+  // once were done through the string then return if the stack is empty
+  return stack.length === 0;
 };
