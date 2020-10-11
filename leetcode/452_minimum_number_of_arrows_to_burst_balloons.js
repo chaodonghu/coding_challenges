@@ -68,3 +68,31 @@ var findMinArrowShots = function (points) {
 
   return points.length - removals;
 };
+
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var findMinArrowShots = function (points) {
+  if (!points.length) return 0;
+
+  // sort points by increasing order by endpoint
+  points.sort((a, b) => a[1] - b[1]);
+
+  let res = 1;
+  // instantiate endpoint to be first endpoint
+  let end = points[0][1];
+
+  for (p of points) {
+    // if the start of the current point is less than or equal then the end then it overlaps
+    if (p[0] <= end) {
+      continue;
+    } else {
+      // does not overlap then increase shots and move endpoint to latest end
+      res++;
+      end = p[1];
+    }
+  }
+
+  return res;
+};
