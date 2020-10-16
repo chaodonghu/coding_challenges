@@ -2,34 +2,25 @@
  * @param {number[]} nums
  * @return {number}
  */
- var loot = function(nums) {
-   // Instead of creating an array to save all of the previous maxes just take the previous two maxes
-   // We only need to take the previous two maxes
-   // because at most we would only go two spaces away
-   // to check our maximum value
-   let prevMax = 0;
-   let twoAwayFromMax = 0;
-   nums.forEach(house => {
-     // destructuring assignment to swap prevMax and twoAwayFromMax values
-     [prevMax, twoAwayFromMax] = [
-       Math.max(house + twoAwayFromMax, prevMax),
-       prevMax
-     ];
-   });
-   return prevMax;
- };
-
 var rob = function (nums) {
-  let length = nums.length;
-
-  if (length === 0) {
+  if (nums.length === 0) {
     return 0;
   }
-
-  if (length <= 3) {
-    return Math.max.apply(null, nums);
+  if (nums.length === 1) {
+    return nums[0];
   }
-
-  return Math.max(loot(nums.slice(0, -1), loot(nums.slice(1))));
-    // return loot(nums.slice(0, -1));
+  if (nums.length === 2 || nums.length === 3) {
+    return Math.max(...nums);
+  }
+  var maxRob = (arr) => {
+    var total = [arr[0], Math.max(arr[0], arr[1])];
+    for (var i = 2; i < nums.length - 1; i++) {
+      total[i] = Math.max(total[i - 1], total[i - 2] + arr[i]);
+      console.log(total);
+    }
+    return total[total.length - 1];
+  };
+  var rob1 = maxRob(nums.slice(0, nums.length - 1));
+  var rob2 = maxRob(nums.slice(1, nums.length));
+  return Math.max(rob1, rob2);
 };
