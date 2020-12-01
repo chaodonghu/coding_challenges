@@ -14,17 +14,25 @@
  * @param {number[]} nums
  * @return {number}
  */
-var majorityElement = function(nums) {
-  const hash = {};
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function (nums) {
+  let countMap = new Map();
   let max = 0;
-  let val = 0;
+  let maxNum = 0;
 
-  for (num of nums) {
-    hash[num] ? hash[num]++ : (hash[num] = 1);
-    if (hash[num] > max) {
-      max = hash[num];
-      val = num;
+  for (let num of nums) {
+    countMap.has(num)
+      ? countMap.set(num, countMap.get(num) + 1)
+      : countMap.set(num, 1);
+
+    if (countMap.get(num) > max) {
+      max = countMap.get(num);
+      maxNum = num;
     }
   }
-  return val;
+
+  return maxNum;
 };
