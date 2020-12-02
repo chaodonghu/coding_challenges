@@ -4,7 +4,7 @@
 //
 // To save your vacation, you need to get all fifty stars by December 25th.
 //
-// Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+// Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you compconste the first. Each puzzle grants one star. Good luck!
 //
 // Before you leave, the Elves in accounting just need you to fix your expense report (your puzzle input); apparently, something isn't quite adding up.
 //
@@ -433,17 +433,18 @@ const inputNumber = [
   1702,
 ];
 
-let twoSum = function (nums, target) {
-  let map = new Map();
+// Part 1
+const twoSum = function (nums, target) {
+  const map = new Map();
 
-  for (let i = 0; i < nums.length; i++) {
-    let num = nums[i];
+  for (const i = 0; i < nums.length; i++) {
+    const num = nums[i];
     // if there is no complement in the array then set it
     if (map.get(num) === undefined) {
       // set the complement and their indicy
       map.set(target - num, i);
     } else {
-      // indicies are [nums.get(num), i];
+      // indices are [nums.get(num), i];
       // we want to return the actual values
       // so multiply the actual values
       return num * nums[map.get(num)];
@@ -452,3 +453,29 @@ let twoSum = function (nums, target) {
 };
 
 twoSum(inputNumber, 2020);
+
+// Part 2
+let twoSumIndices = function (nums, target) {
+  let map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    let num = nums[i];
+    // if there is no complement in the array then set it
+    if (map.get(num) === undefined) {
+      // set the complement and their indicy
+      map.set(target - num, i);
+    } else {
+      return [i, map.get(num)];
+    }
+  }
+};
+
+let threeSum = (arr, sum) => {
+  for (let i = 0; i < arr.length; i++) {
+    // will return back two indicies that equate to 2020 - the current value
+    let indices = twoSumIndices(arr, sum - arr[i]);
+    if (indices && !indices.includes(i)) {
+      // multiply all the nums together
+      return arr[i] * arr[indices[0]] * arr[indices[1]];
+    }
+  }
+};
