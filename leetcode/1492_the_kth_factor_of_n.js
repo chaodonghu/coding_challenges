@@ -62,3 +62,22 @@ var kthFactor = function (n, k) {
 
   return k > generatedFactors.length ? -1 : generatedFactors[k - 1];
 };
+
+var kthFactor = function (n, k) {
+  let counter = 0;
+
+  // loop through numbers up until n
+  for (let i = 1; i <= n; i++) {
+    // if the index is a factor of n then increment counter
+    if (n % i === 0) {
+      counter += 1;
+
+      // once the counter equals to the desired k index, return the current index
+      if (counter === k) {
+        return i;
+      }
+    }
+  }
+
+  return -1;
+};
