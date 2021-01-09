@@ -27,13 +27,20 @@ var lengthOfLongestSubstring = function (s) {
   let right = 0;
   let maxSubstringLength = 0;
 
+  // until the right pointer reaches the length of the string
   while (right < s.length) {
+    // if we don't have a duplicate character
     if (!set.has(s.charAt(right))) {
+      // at right pointer character to the set
       set.add(s.charAt(right));
+      // update max substring length either current max or size of non duplicate set
       maxSubstringLength = Math.max(maxSubstringLength, set.size);
+      // increase right pointer
       right++;
     } else {
+      // remove the character at the left from non duplicate set
       set.delete(s.charAt(left));
+      // increase left pointer
       left++;
     }
   }
