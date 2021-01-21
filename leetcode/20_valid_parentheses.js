@@ -31,31 +31,28 @@
  * @param {string} s
  * @return {boolean}
  */
-const map = {
-  "(": ")",
-  "[": "]",
-  "{": "}",
-};
-
 const isValid = (s) => {
   // initiate stack
   const stack = [];
 
-  // loop through string
-  for (let i = 0; i < s.length; i++) {
-    // get the current element
-    const el = s[i];
+  const map = {
+    "(": ")",
+    "[": "]",
+    "{": "}",
+  };
 
-    // if the parentheses' complement is in our map
+  for (el of s) {
+    // if character is an open bracket
     if (map[el]) {
-      // then push the complement into the stack
+      // push the complement into our stack
       stack.push(map[el]);
-    } else {
-      // the element is not an opening bracket but a closing bracket
-      // if the element is not the last element on our stack then return false
-      if (el !== stack.pop()) {
-        return false;
-      }
+      // skip to next iteration
+      continue;
+    }
+
+    // if the element is not that last closing bracket in our stack then it is not balanced
+    if (el !== stack.pop()) {
+      return false;
     }
   }
 
