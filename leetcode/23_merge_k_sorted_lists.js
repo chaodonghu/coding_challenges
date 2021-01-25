@@ -22,10 +22,7 @@
  * @return {ListNode}
  */
 var mergeTwo = function(a, b) {
-    let i = a;
-    let j = b;
     let res = new ListNode('temp');
-
     let current = res;
 
     while (a && b) {
