@@ -49,7 +49,7 @@ console.log("AdjacencyList", adjacencyList);
 //   'LIM' => [ 'MEX', 'BKK' ]
 // }
 
-// Part 2 - Find the most efficient method to get to BKK
+// Part 2 - Find all the ways to get to BKK
 function bfs(start) {
   const visited = new Set();
   // First in first out
@@ -62,7 +62,9 @@ function bfs(start) {
     for (const destination of destinations) {
       if (destination === "BKK") {
         console.log(
-          `You must visit these airports to reach Bangkok ${Array.from(visited.values())}`
+          `You must visit these airports to reach Bangkok ${Array.from(
+            visited.values()
+          )}`
         );
       }
 
@@ -75,3 +77,51 @@ function bfs(start) {
 }
 
 bfs("PHX");
+
+// Part 3
+function bfs(start) {
+  const visited = new Set();
+  // First in first out
+  const queue = [start];
+  while (queue.length > 0) {
+    // get the first element off of the queue
+    const airport = queue.shift(); // mutates the queue
+    // get all the destinations in our adjacency list
+    const destinations = adjacencyList.get(airport);
+    for (const destination of destinations) {
+      if (destination === "BKK") {
+        console.log(
+          `You must visit these airports to reach Bangkok ${Array.from(
+            visited.values()
+          )}`
+        );
+      }
+
+      if (!visited.has(destination)) {
+        visited.add(destination);
+        queue.push(destination);
+      }
+    }
+  }
+}
+
+bfs("PHX");
+
+function dfs(start, visited = new Set()) {
+  visited.add(start);
+
+  const destinations = adjacencyList.get(start);
+
+  for (const destination of destinations) {
+    if (destination === "BKK") {
+      console.log(`DFS found Bangkok`);
+      return;
+    }
+
+    if (!visited.has(destination)) {
+      dfs(destination, visited);
+    }
+  }
+}
+
+dfs("PHX");
