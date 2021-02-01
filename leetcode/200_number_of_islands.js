@@ -30,8 +30,7 @@ var numIslands = function (grid) {
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[0].length; col++) {
       if (grid[row][col] === "1") {
-        count++;
-        dfs(grid, row, col);
+        count += dfs(grid, row, col);
       }
     }
   }
@@ -40,15 +39,27 @@ var numIslands = function (grid) {
 };
 
 var dfs = function (grid, row, col) {
-  if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) return;
-
-  const value = grid[row][col];
-
-  if (value === "1") {
-    grid[row][col] = "#";
-    dfs(grid, row - 1, col);
-    dfs(grid, row + 1, col);
-    dfs(grid, row, col - 1);
-    dfs(grid, row, col + 1);
+  // if we are out of bounds or if we reached a 0
+  if (
+    row < 0 ||
+    row >= grid.length ||
+    col < 0 ||
+    col >= grid[0].length ||
+    grid[row][col] === "0"
+  ) {
+    return 0;
   }
+
+  // mark that we have been there
+  grid[row][col] = "0";
+  // left
+  dfs(grid, row - 1, col);
+  // right
+  dfs(grid, row + 1, col);
+  // bottom
+  dfs(grid, row, col - 1);
+  // top
+  dfs(grid, row, col + 1);
+
+  return 1;
 };
