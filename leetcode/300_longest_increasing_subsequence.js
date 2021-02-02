@@ -20,5 +20,5 @@ function lengthOfLIS(nums) {
     }
   }
   // return the maximum in the array
-  return Math.max.apply(null, list)
+  return Math.max(...list)
 }
