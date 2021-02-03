@@ -15,7 +15,7 @@
 // uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]) should return [1, 2, 3, 5, 4, 6, 7, 8].
 
 function uniteUnique(...arr) {
-  let flattedArray = arr.reduce((acc, el) => {
+  let flattenedArray = arr.reduce((acc, el) => {
     return acc.concat(el);
   });
 
