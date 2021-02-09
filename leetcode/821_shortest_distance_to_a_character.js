@@ -29,8 +29,25 @@ var shortestToChar = function (s, c) {
   dp[0] = s[0] === c ? 0 : Number.MAX_SAFE_INTEGER;
 
   for (let i = 1; i < s.length; i++) {
-
+    if (s[i] === c) {
+      dp[i] = 0;
+    } else {
+      dp[i] = dp[i - 1] === Number.MAX_SAFE_INTEGER ? Number.MAX_SAFE_INTEGER : dp[i-1] + 1;
+    }
   }
+
+  let distance = Number.MAX_SAFE_INTEGER;
+
+  for (let j = s.length - 1; j >= 0; j--) {
+    if (s[j] === c) {
+      distance = 0;
+    }
+
+    dp[j] = Math.min(dp[j], distance);
+    distance += 1;
+  }
+
+  return dp;
   // where the character exists in our dp array, mark it with a 0, leave all non matching characters as max safe integer
   // if we pass a character that is next to the character then add one to its distance
 

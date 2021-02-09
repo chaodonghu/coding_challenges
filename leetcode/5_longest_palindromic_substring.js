@@ -27,6 +27,7 @@ var longestPalindrome = function (s) {
   let result = "";
   for (let i = 0; i < s.length; i++) {
     let test = helper(i, i);
+    console.log('test', test);
     if (test.length > result.length) {
       result = test;
     }
