@@ -36,6 +36,7 @@ var search = function (nums, target) {
       return mid;
     } else if (
       // (1) value of our index low is less than or equal to our target and the target is less than the value at the mid
+      //     (we have an increasing portion and the target is less than any of this increasing portion)
       // (2) value of our index low is greater than the value at our index mid and the value at the index low is less than or equal to our target or the target is less than our nums mid
       (nums[low] <= target && target < nums[mid]) ||
       (nums[low] > nums[mid] && (nums[low] <= target || target < nums[mid]))
