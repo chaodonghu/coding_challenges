@@ -64,3 +64,25 @@ var combinationSum = function (candidates, target) {
   recur(target, 0, []);
   return result;
 };
+
+
+var combinationSum = function (candidates, target) {
+  const result = [];
+
+  const permute = (arr, sum, index) => {
+    // if our new sum is greater than the target then return out permutation
+    if (sum > target) return;
+    // if the sum is equal to the target then push what we have to the result array
+    if (sum === target) result.push(arr);
+
+    for (let i = index; i < candidates.length; i++) {
+      // backtrack and add the current candidate to the new array and the sum
+      const newArray = [...arr, candidates[i]];
+      const newSum = sum + candidates[i];
+      permute(newArray, newSum, i);
+    }
+  }
+
+  permute([], 0, 0);
+  return result;
+};
