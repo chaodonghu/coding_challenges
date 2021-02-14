@@ -25,7 +25,7 @@ const letterCombinations = (digits) => {
       return;
     }
 
-    // for every mapping of the digit, iterate through it
+    // for every mapping of the digit, iterate through it (at least 3 letters)
     for (const c of map[digits[i]]) {
       makeCombination(i + 1, s + c);
     }
