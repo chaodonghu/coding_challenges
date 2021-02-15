@@ -12,25 +12,25 @@
  * @param {string} s
  * @return {number}
  */
-var firstUniqChar = function(s) {
-    // hashmap at most will contain all letters of the alphabet (26 key-value pairs)
-    let characterCount = {};
+var firstUniqChar = function (s) {
+  // hashmap at most will contain all letters of the alphabet (26 key-value pairs)
+  let characterCount = {};
 
-    // loop through string once
-    for (let i = 0; i < s.length; i++) {
-        const char = s[i];
-        characterCount[char] = characterCount[char] + 1 || 1;
+  // loop through string once
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    characterCount[char] = characterCount[char] + 1 || 1;
+  }
+
+  // loop through string again to return back index
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (characterCount[char] === 1) {
+      return i;
     }
+  }
 
-    // loop through string again to return back index
-    for (let i = 0; i < s.length; i++) {
-        const char = s[i];
-        if (characterCount[char] === 1) {
-            return i;
-        }
-    }
-
-    return -1;
+  return -1;
 };
 
 // Time Complexity: O(N) we loop through the input string twice
