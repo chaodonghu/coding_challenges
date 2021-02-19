@@ -22,8 +22,10 @@
  */
 var maxProfit = function (prices) {
   let profit = 0;
+  // keep track of the local minima
   let min = prices[0];
 
+  // loop through the prices
   for (let i = 1; i < prices.length; i++) {
     // minimum is either the current minimum or the current element
     min = Math.min(min, prices[i]);

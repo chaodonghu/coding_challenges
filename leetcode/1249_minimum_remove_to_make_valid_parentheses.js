@@ -1,55 +1,32 @@
-// Given a string s of '(' , ')' and lowercase English characters.
-//
-// Your task is to remove the minimum number of parentheses ( '(' or ')', in any positions ) so that the resulting parentheses string is valid and return any valid string.
-//
-// Formally, a parentheses string is valid if and only if:
-//
-// It is the empty string, contains only lowercase characters, or
-// It can be written as AB (A concatenated with B), where A and B are valid strings, or
-// It can be written as (A), where A is a valid string.
-//
-//
-// Example 1:
-//
-// Input: s = "lee(t(c)o)de)"
-// Output: "lee(t(c)o)de"
-// Explanation: "lee(t(co)de)" , "lee(t(c)ode)" would also be accepted.
-// Example 2:
-//
-// Input: s = "a)b(c)d"
-// Output: "ab(c)d"
-// Example 3:
-//
-// Input: s = "))(("
-// Output: ""
-// Explanation: An empty string is also valid.
-// Example 4:
-//
-// Input: s = "(a(b(c)d)"
-// Output: "a(b(c)d)"
-//
-//
-// Constraints:
-//
-// 1 <= s.length <= 10^5
-// s[i] is one of  '(' , ')' and lowercase English letters.
-
 /**
  * @param {string} s
  * @return {string}
  */
-var minRemoveToMakeValid = function(str) {
-  str = str.split("");
+var minRemoveToMakeValid = function (s) {
+  s = s.split("");
   let stack = [];
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] === "(") stack.push(i);
-    else if (str[i] === ")") {
-      if (stack.length) stack.pop();
-      else str[i] = "";
+
+  for (let i = 0; i < s.length; i++) {
+    // if character is an opening bracket push the index of that opening bracket to the stack
+    if (s[i] === "(") stack.push(i);
+    // if the character is a closing bracket
+    else if (s[i] === ")") {
+      // pop off the latest index in our stack since it matches
+      if (stack.length) {
+        stack.pop();
+      } else {
+        // if we dont have anything in our stack then delete the closing bracket
+        s[i] = "";
+      }
     }
   }
 
-  for (let i of stack) str[i] = "";
+  // for whatever we have remaining in our stack, delete the indexes of these opening brackets
+  for (i of stack) s[i] = "";
 
-  return str.join("");
+  // join our string back together
+  return s.join("");
 };
+
+// Time Complexity: O(N) -> Go through our string once, then potentially have to go through it again if we have all opening brackets in our stack
+// Space Complexity: O(N)
