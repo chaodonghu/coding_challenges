@@ -48,5 +48,6 @@ var searchMatrix = function (matrix, target) {
   return false;
 };
 
-// Time Complexity: O(O + N), the worst case is when the target is at the last row, first column of the matrix. Rule out one column and row at a time
+// Time Complexity: O(M + N), the worst case is when the target is at the last row, first column of the matrix. Rule out one column and row at a time
+// The sum of the dimensions of the matrix since we can only decrement the rows n times and the columns n times until we terminate
 // Space Complexity: O(1)
