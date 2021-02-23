@@ -15,24 +15,33 @@
  * @return {string}
  */
 var longestPalindrome = function (s) {
-  const helper = (l, r) => {
+  const expandFromMiddle = (l, r) => {
+    // we are in bounds, our left has to be greater than 0, our right has to be less than the string
+    // our element at the left pointer is equal to the element on the right pointer (palidrome)
     while (l >= 0 && r < s.length && s[l] === s[r]) {
+      // expand our left pointer
       l--;
+      // expand our right pointer
       r++;
     }
 
+    // return the palidrome
     return s.slice(l + 1, r);
   };
 
   let result = "";
   for (let i = 0; i < s.length; i++) {
-    let test = helper(i, i);
-    console.log('test', test);
+    // odd length
+    let test = expandFromMiddle(i, i);
     if (test.length > result.length) {
+      // update the longest palidrome
       result = test;
     }
-    test = helper(i, i + 1);
+
+    // even length
+    test = expandFromMiddle(i, i + 1);
     if (test.length > result.length) {
+      // update the longest palidrome
       result = test;
     }
   }
