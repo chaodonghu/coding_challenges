@@ -47,3 +47,6 @@ var lengthOfLongestSubstring = function (s) {
 
   return maxSubstringLength;
 };
+
+// Time: O(N) since we pass through the string twice with two pointers
+// Space: O(1) our set

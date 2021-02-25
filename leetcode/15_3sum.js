@@ -20,6 +20,8 @@
  */
 var threeSum = function (nums) {
   let result = [];
+
+  let set = new Set();
   // sort array so we can do a binary search
   nums.sort((a, b) => a - b);
 
@@ -41,19 +43,23 @@ var threeSum = function (nums) {
       sum = nums[i] + nums[head] + nums[tail];
       if (sum === 0) {
         // if the sum is 0, then push this result
-        result.push([nums[i], nums[head], nums[tail]]);
+        let res = [nums[i], nums[head], nums[tail]];
+        // if our set does not have the current combinatio
+        if (!set.has(`${nums[i]}${nums[head]}${nums[tail]}`)) {
+          // add to our set
+          set.add(`${nums[i]}${nums[head]}${nums[tail]}`);
+          // push the result into our result array
+          result.push(res);
+        }
+        // increase the head
         head++;
+        // decrease the tail
         tail--;
-
-        while (head < tail && nums[head] === nums[head - 1]) {
-          head++;
-        }
-        while (head < tail && nums[tail] === nums[tail + 1]) {
-          tail--;
-        }
       } else if (sum > 0) {
+        // if our sum is greater, then decrease the tail pointer
         tail--;
       } else {
+        // if our sum is less than 0 then increase our head pointer
         head++;
       }
     }
@@ -61,3 +67,6 @@ var threeSum = function (nums) {
 
   return result;
 };
+
+// Time: Sorting is O (N log N) and we loop through the array n times thus O (N log N + n^2) which is O(N^2)
+// Space; O(N) for the set
