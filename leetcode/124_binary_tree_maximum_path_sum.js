@@ -57,3 +57,6 @@ var maxPathSum = function (root) {
     return Math.max(0, node.val + leftSum, node.val + rightSum);
   }
 };
+
+// Time: O(N), we traverse each node no more then twice
+// Space: O(H), where H is the height of the tree due to the recursion stack
