@@ -28,3 +28,7 @@ var moveZeroes = function(nums) {
     }
 
 };
+
+
+// Time: O(N) pass through the array once
+// Space: O(1), you have two pointers
