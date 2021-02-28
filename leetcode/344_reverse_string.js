@@ -20,19 +20,19 @@
  * @return {void} Do not return anything, modify s in-place instead.
  */
 var reverseString = function (s) {
-  let left = 0;
-  let right = s.length - 1;
+  let start = 0;
+  let end = s.length - 1;
 
-  while (left < right) {
-    let tempRight = s[right];
-    let tempLeft = s[left];
-    s[left] = tempRight;
-    s[right] = tempLeft;
-    left = left + 1;
-    right = right - 1;
+  while (start < end) {
+    let tempStart = s[start];
+    s[start] = s[end];
+    s[end] = tempStart;
+    start++;
+    end--;
   }
-};
 
+  return s;
+};
 
 // Time complexity: O(N)
 // Space complexity: O(1)
