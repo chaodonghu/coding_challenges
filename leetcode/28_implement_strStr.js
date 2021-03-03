@@ -59,3 +59,5 @@ var strStr = function (haystack, needle) {
 // el
 // ll
 // lo
+// Time: O(N)
+// Space: O(1)
