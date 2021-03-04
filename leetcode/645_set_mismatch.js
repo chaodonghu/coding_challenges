@@ -59,7 +59,7 @@ var findErrorNums = function (nums) {
     map[num] = (map[num] || 0) + 1;
   }
 
-  for (let i = 1; i <- nums.length; i++) {
+  for (let i = 1; i <= nums.length; i++) {
     if (map[i] === 2) {
       dup = i;
     }
