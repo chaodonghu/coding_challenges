@@ -56,3 +56,6 @@ var insertIntoBST = function (root, val) {
   // return the root
   return root;
 };
+
+// Time: O(H) in the worst case we would go all the way to either the left or the right of the BST, average case would be O(log N)
+// Space: O(H)

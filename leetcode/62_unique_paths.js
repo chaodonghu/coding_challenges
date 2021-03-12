@@ -34,17 +34,25 @@
  * @param {number} n
  * @return {number}
  */
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
 var uniquePaths = function (m, n) {
-  let dp = new Array(m + 1).fill(1).map((x) => new Array(n + 1).fill(0));
-  for (let row = 1; row <= n; row++) {
-    for (let col = 1; col <= m; col++) {
-      if (row == 1 && col == 1) {
-        dp[row][col] = 1;
-      } else {
-        dp[row][col] = dp[row - 1][col] + dp[row][col - 1];
-      }
+  // since we can only move right or down then the first row's unique paths will all be 1
+  // the first col's unique paths will all be 1
+  let dp = new Array(m + 1).fill(1).map((x) => new Array(n + 1).fill(1));
+
+  // iterate through all of the cells starting at 1, 1
+  for (let row = 1; row <= m; row++) {
+    for (let col = 1; col <= n; col++) {
+      dp[row][col] = dp[row - 1][col] + dp[row][col - 1];
     }
   }
 
-  return dp[n][m];
+  return dp[m - 1][n - 1];
 };
+
+// Time: O (N * M)
+// Space: O (N * M)

@@ -65,3 +65,6 @@ var kthSmallest = function(root, k) {
     // return the kth element of the array (index starts at 0)
     return array[k-1]
 };
+
+// Time: O(H) wtih H being the height of the tree
+// Space: O(N) with N being the number of nodes in the tree in the worst case
