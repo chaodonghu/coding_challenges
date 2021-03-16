@@ -18,27 +18,40 @@
  * @param {number[]} nums
  * @return {void} Do not return anything, modify nums in-place instead.
  */
-var sortColors = function(nums) {
-    let left = 0;
-    let curr = 0;
-    let right = nums.length - 1;
+var sortColors = function (nums) {
+  // instantiate 3 pointers
+  let left = 0;
+  let curr = 0;
+  let right = nums.length - 1;
 
-    while (curr <= right) {
-        let tempLeft = nums[left];
-        let tempCurr = nums[curr];
-        let tempRight = nums[right];
-        if (tempCurr === 0) {
-            nums[left] = tempCurr;
-            nums[curr] = tempLeft;
-            left++;
-            curr++;
-        } else if (tempCurr === 2) {
-            nums[right] = tempCurr;
-            nums[curr] = tempRight;
-            right--;
-        } else {
-            curr++;
-        }
+  // once our current pointer is out of bounds
+  while (curr <= right) {
+    // instatite the temporary values for us to swap
+    let tempLeft = nums[left];
+    let tempCurr = nums[curr];
+    let tempRight = nums[right];
+
+    // if the current value is 0 then we swap the left most value and the current values
+    // increment our left and current pointer
+    if (tempCurr === 0) {
+      nums[left] = tempCurr;
+      nums[curr] = tempLeft;
+      left++;
+      curr++;
+      // if our value is 2 then we swap the current value and the right most value
+      // decrement our right pointer and leave current pointer the same
+    } else if (tempCurr === 2) {
+      nums[right] = tempCurr;
+      nums[curr] = tempRight;
+      right--;
+    } else {
+      // we are on a 1 and just increase current pointer
+      curr++;
     }
+  }
 
+  return nums;
 };
+
+// Time: O(N) since we loop through each element in the nums array
+// Space: O(1) since we have 3 pointers
