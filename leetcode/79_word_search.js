@@ -74,3 +74,6 @@ var exist = function (board, word) {
   }
   return false;
 };
+
+// Time: O(N * 3^L) where N is the number of cells in the board and L is the length of the word to be matched. We at most go in 3 directions from where we started since we will never go back in the direction we came from
+// Space: O(L), the maximum call stack in recursion will be the length of the word

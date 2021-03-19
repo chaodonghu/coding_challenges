@@ -16,9 +16,11 @@
  */
 var longestPalindrome = function (s) {
   const expandFromMiddle = (l, r) => {
-    // we are in bounds, our left has to be greater than 0, our right has to be less than the string
+    // we are in bounds, our left has to be greater or equal to 0, our right has to be less than the string
     // our element at the left pointer is equal to the element on the right pointer (palidrome)
     while (l >= 0 && r < s.length && s[l] === s[r]) {
+      console.log('s[l]', s[l]);
+      console.log('s[r]', s[r]);
       // expand our left pointer
       l--;
       // expand our right pointer
@@ -26,6 +28,7 @@ var longestPalindrome = function (s) {
     }
 
     // return the palidrome
+    console.log('s.slice(l + 1, r)', s.slice(l + 1, r));
     return s.slice(l + 1, r);
   };
 
@@ -48,3 +51,6 @@ var longestPalindrome = function (s) {
 
   return result;
 };
+
+// Time: O(N^2)
+// Space: O(N)

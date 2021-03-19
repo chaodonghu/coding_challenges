@@ -22,18 +22,18 @@
  * @return {number[][]}
  */
 // Recursive solution
-var subsets = function(nums) {
-    let output = [];
+var subsets = function (nums) {
+  let output = [];
 
-    var helper = function(start, temp, output) {
-        output.push(temp);
-        for (let i = start; i < nums.length; i++) {
-            helper(i + 1, [...temp, nums[i]], output);
-        }
+  var helper = function (start, temp, output) {
+    output.push(temp);
+    for (let i = start; i < nums.length; i++) {
+      helper(i + 1, [...temp, nums[i]], output);
     }
+  };
 
-    helper(0, [], output);
-    return output;
+  helper(0, [], output);
+  return output;
 };
 
 /**
@@ -41,16 +41,16 @@ var subsets = function(nums) {
  * @return {number[][]}
  */
 // Iterative solution
-var subsets = function(nums) {
-    let output = [[]];
+var subsets = function (nums) {
+  let output = [[]];
 
-    let n = nums.length;
-
-    for (num of nums) {
-        for(curr of output) {
-            output = [...output, [...curr, num]];
-        }
+  for (let num of nums) {
+    for (let curr of output) {
+      output = [...output, [...curr, num]];
     }
+  }
 
-    return output;
-}
+  return output;
+};
+// Time: O(N * 2^N)
+// Space: O(N * 2^N)
