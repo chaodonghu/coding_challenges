@@ -113,3 +113,28 @@ var getIntersectionNode = function (headA, headB) {
 
   return pointer1;
 };
+
+// Set solution
+var getIntersectionNode = function (headA, headB) {
+  if (!headA || !headB) return null;
+  let set = new Set();
+
+  while (headA) {
+    if (!set.has(headA)) {
+      set.add(headA);
+    }
+    headA = headA.next;
+  }
+
+  while (headB) {
+    if (set.has(headB)) {
+      return headB
+    }
+    headB = headB.next;
+  }
+
+  return null;
+};
+
+// Time: O(N + M) since we loop through both linked lists
+// Space: O(N) since we store all the nodes of linked list A

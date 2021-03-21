@@ -23,26 +23,38 @@
  * }
  */
 /**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
  * @param {ListNode} head
  * @return {ListNode}
  */
-var oddEvenList = function(head) {
-    // if the linked list is null then return null
-    if (head === null) {
-        return null;
-    }
+var oddEvenList = function (head) {
+  if (!head) return null;
 
-    let odd = head;
-    let even = head.next;
-    let evenHead = even;
+  // instantiate our odd pointer
+  let odd = head;
+  // instantiate our even pointer
+  let even = head.next;
+  // our even head points to our current even
+  let evenHead = even;
 
-    while (even !== null && even.next !== null) {
-        odd.next = even.next;
-        odd = odd.next;
-        even.next = odd.next
-        even = even.next
-    }
+  while (even && even.next) {
+    odd.next = even.next;
+    odd = odd.next;
+    even.next = odd.next;
+    even = even.next;
+  }
 
-    odd.next = evenHead;
-    return head;
+  // append our even head to the end of our odd linked list
+  odd.next = evenHead;
+
+  return head;
 };
+
+// Time: O(N) with N being the number of nodes in the linked list, since we traverse the linked list with two pointers
+// Space: O(1) we modify the linked list in place
