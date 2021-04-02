@@ -30,9 +30,6 @@ var isPalindrome = function (head) {
     head = head.next;
   }
 
-  console.log("list", list);
-
-  if (list.length < 2) return true;
   let start = 0;
   let end = list.length - 1;
 
