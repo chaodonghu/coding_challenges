@@ -18,6 +18,7 @@ function canFinish(numCourses, prerequisites) {
   for (let i = 0; i < indegree.length; i++) {
     if (indegree[i] === 0) {
       queue.push(i);
+      answer.push(i);
     }
   }
 
@@ -33,12 +34,15 @@ function canFinish(numCourses, prerequisites) {
           indegree[course]--;
           if (indegree[course] === 0) {
             queue.push(course);
+            answer.push(i);
           }
         }
       }
     }
   }
 
+  console.log('answer', answer);
   // if our entire indegree array is full of 0s meaning that no more courses point to it as a prerequisite or has been taken then return the number of semesters
   return indegree.every((e) => e === 0);
+
 }
