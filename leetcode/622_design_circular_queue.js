@@ -45,7 +45,10 @@
  */
 var MyCircularQueue = function (k) {
   this.queue = [];
-  this.size = k;
+  this.currentSize = 0;
+  this.maxSize = k;
+  this.front = 0;
+  this.rear = -1;
 };
 
 /**
@@ -53,60 +56,59 @@ var MyCircularQueue = function (k) {
  * @return {boolean}
  */
 MyCircularQueue.prototype.enQueue = function (value) {
-  if (this.queue.length + 1 > this.size) {
+  // if the currentSize is greater or equal than the maxSize we cannot add
+  if (this.currentSize >= this.maxSize) {
     return false;
-  } else {
-    this.queue.push(value);
-    return true;
   }
+
+  this.rear = (this.rear + 1) % this.maxSize;
+  console.log("this.rear", this.rear);
+  this.queue[this.rear] = value;
+  this.currentSize++;
+
+  return true;
 };
 
 /**
  * @return {boolean}
  */
 MyCircularQueue.prototype.deQueue = function () {
-  if (this.queue.length) {
-    this.queue.shift();
-    return true;
-  } else {
+  if (this.currentSize === 0) {
     return false;
   }
+
+  this.front = (this.front + 1) % this.maxSize;
+  this.currentSize--;
+
+  return true;
 };
 
 /**
  * @return {number}
  */
 MyCircularQueue.prototype.Front = function () {
-  if (this.queue.length) {
-    return this.queue[0];
-  } else {
-    return -1;
-  }
+  return this.currentSize === 0 ? -1 : this.queue[this.front];
 };
 
 /**
  * @return {number}
  */
 MyCircularQueue.prototype.Rear = function () {
-  if (this.queue.length) {
-    return this.queue[this.queue.length - 1];
-  } else {
-    return -1;
-  }
+  return this.currentSize === 0 ? -1 : this.queue[this.rear];
 };
 
 /**
  * @return {boolean}
  */
 MyCircularQueue.prototype.isEmpty = function () {
-  return this.queue.length === 0;
+  return this.currentSize === 0;
 };
 
 /**
  * @return {boolean}
  */
 MyCircularQueue.prototype.isFull = function () {
-  return this.queue.length === this.size;
+  return this.currentSize === this.maxSize;
 };
 
 /**
