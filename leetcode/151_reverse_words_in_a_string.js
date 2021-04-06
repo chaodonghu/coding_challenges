@@ -21,11 +21,20 @@
 // A word is defined as a sequence of non-space characters.
 // Input string may contain leading or trailing spaces. However, your reversed string should not contain leading or trailing spaces.
 // You need to reduce multiple spaces between two words to a single space in the reversed string.
+var reverseWords = function (str) {
+  // split the string by spaces and filter out non strings
+  const array = str.split(" ").filter((string) => string);
 
-var reverseWords = function(str) {
-    return str
-            .split(' ')               //create an array of words separated based by spaces
-            .filter(string => string) //remove empty strings to take care of extra whitespace
-            .reverse()                //reverse the array of words
-            .join(' ');               //join the words back together with spaces inbetween
+  let start = 0;
+  let end = array.length - 1;
+
+  while (start <= end) {
+    let tempStart = array[start];
+    array[start] = array[end];
+    array[end] = tempStart;
+    start++;
+    end--;
+  }
+
+  return array.join(" ");
 };
