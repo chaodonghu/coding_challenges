@@ -12,7 +12,7 @@ let gameOfLife = (board) => {
     for (let j = 0; j < board[0].length; j++) {
       // get the live cells surrounding the cell we are currently on
       let liveCells = aliveNeighbors(board, i, j);
-      // if the current cell is live and has less than 2 live neighbours or more then 2 live neighbours then it dies
+      // if the current cell is live and has less than 2 live neighbours or more then 3 live neighbours then it dies
       if (board[i][j] === 1 && (liveCells < 2 || liveCells > 3)) {
         board[i][j] = 2;
       }
@@ -27,7 +27,7 @@ let gameOfLife = (board) => {
   // go through our board and modulo every number by 2, all 1's and 3's will now turn into 1, all 2's will now be dead
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[0].length; j++) {
-      board[i][j] %= 2;
+      board[i][j] = board[i][j] % 2;
     }
   }
 };
