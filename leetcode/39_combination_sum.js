@@ -65,7 +65,6 @@ var combinationSum = function (candidates, target) {
   return result;
 };
 
-
 var combinationSum = function (candidates, target) {
   const result = [];
 
@@ -81,7 +80,7 @@ var combinationSum = function (candidates, target) {
       const newSum = sum + candidates[i];
       permute(newArray, newSum, i);
     }
-  }
+  };
 
   permute([], 0, 0);
   return result;
@@ -118,3 +117,38 @@ var combinationSum = function (candidates, target) {
 // [6, 7]
 // [7]
 // [7, 7]
+
+// Dp solution
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function (candidates, target) {
+  // instantiate a dp array that holds all the combinations of c candidates for that index
+  const dp = new Array(target + 1).fill(0).map(() => []);
+
+  // go through our candidates
+  for (let c of candidates) {
+    // for each candidate populate our dp array
+    for (let currTarget = 1; currTarget < target + 1; currTarget++) {
+      // if the current candidate is greater than our current index in the dp array then it cannot be a combination
+      if (c > currTarget) {
+        continue;
+      }
+      // if the current candidate equals our current index in the dp array push it
+      if (c === currTarget) {
+        dp[currTarget].push([c]);
+      }
+
+      // go through our previous builds where the current target minus the candidate
+      // this means we can have the current candidate plus the previous built up list as a combination for our current index in the dp array
+      for (let list of dp[currTarget - c]) {
+        dp[currTarget].push([...list, c]);
+      }
+    }
+  }
+
+  // our last index in the dp array will give us all the combinations for our target
+  return dp[dp.length - 1];
+};
