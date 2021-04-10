@@ -54,3 +54,6 @@ var inorderSuccessor = function (root, p) {
 
   return candidate;
 };
+
+// Time: O(N) since in the worst case we go through all the nodes
+// Space: O(1)
