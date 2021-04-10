@@ -65,10 +65,17 @@ function textEditor(input) {
 //  ["4","UNDO"],
 //  ["5","REDO"],
 //  ["6","REDO"]]
-//
 //  "Hello there!"
 
 // input: [["1548185072722","APPEND","ey"],
 // ["1548185072721","APPEND","H"]]
-//
+// "Hey"
+
+// input:
+// [["0","APPEND","Hello"],
+ // ["1","APPEND"," there"],
+ // ["2","APPEND","!"],
+ // ["3","UNDO"],
+ // ["4","REDO"],
+ // ["5","BACKSPACE"]
 // "Hey"
