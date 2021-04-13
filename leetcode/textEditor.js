@@ -78,4 +78,10 @@ function textEditor(input) {
  // ["3","UNDO"],
  // ["4","REDO"],
  // ["5","BACKSPACE"]
-// "Hey"
+// "Hello there"
+
+// input:
+// [["0","APPEND","Hello"],
+ // ["1","SELECT", "1", "3"],
+ // ["2","BACKSPACE"]
+// We select the indexes from 1 - 3, so the word we work on is "ell" -> therefore producing "Helo"
