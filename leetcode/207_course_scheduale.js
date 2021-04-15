@@ -1,48 +1,41 @@
-function canFinish(numCourses, prerequisites) {
-  let graph = new Map();
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */
+var canFinish = function (numCourses, prerequisites) {
+  let sortedOrder = [];
 
-  let indegree = new Array(numCourses + 1).fill(0);
+  // count all the incoming edges
+  let inDegree = new Array(numCourses).fill(0);
+  let graph = new Array(numCourses).fill(0).map(() => Array());
 
-  for (let [course, prerequisite] of prerequisites) {
-    if (!graph.has(prerequisite)) {
-      graph.set(prerequisite, []);
-    }
-    // push the course into the array of courses the prerequisite satisfies
-    graph.get(prerequisite).push(course);
-    // increase our index of the course of the indegree
-    indegree[course]++;
+  // build our graph where the key is the prerequisite and it's value is an array of courses that it satisfies
+  for (let i = 0; i < prerequisites.length; i++) {
+    let [parent, child] = prerequisites[i];
+    graph[parent].push(child);
+    inDegree[child]++;
   }
 
-  let queue = [];
-  // loop through our indegree array and push any course with 0 indegrees (no prereqs), we can take these courses in the first semester so push them into our queue
-  for (let i = 0; i < indegree.length; i++) {
-    if (indegree[i] === 0) {
-      queue.push(i);
-      answer.push(i);
+  // now we find all the sources, or in other words, all edges that do not have an indegree
+  let sources = [];
+  for (let i = 0; i < inDegree.length; i++) {
+    if (inDegree[i] === 0) {
+      sources.push(i);
     }
   }
 
-  while (queue.length) {
-    let size = queue.length;
+  while (sources.length > 0) {
+    let vertex = sources.shift();
+    sortedOrder.push(vertex);
+    graph[vertex].forEach((child) => {
+      inDegree[child]--;
 
-    // loop through the current queue
-    for (let i = 0; i < size; i++) {
-      let prerequisite = queue.shift();
-
-      if (graph.has(prerequisite)) {
-        for (let course of graph.get(prerequisite)) {
-          indegree[course]--;
-          if (indegree[course] === 0) {
-            queue.push(course);
-            answer.push(i);
-          }
-        }
+      if (inDegree[child] === 0) {
+        sources.push(child);
       }
-    }
+    });
   }
 
-  console.log('answer', answer);
-  // if our entire indegree array is full of 0s meaning that no more courses point to it as a prerequisite or has been taken then return the number of semesters
-  return indegree.every((e) => e === 0);
-
-}
+  return sortedOrder.length === numCourses;
+};
