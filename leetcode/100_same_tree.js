@@ -49,3 +49,8 @@ var isSameTree = function(p, q) {
 
     return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 };
+
+// Time: O(N)
+// Space: O(H)
+
+// two trees are identical if the data in the roots is the same or both roots are null

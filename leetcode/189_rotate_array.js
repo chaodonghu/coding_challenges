@@ -28,13 +28,28 @@
 // 1 <= nums.length <= 2 * 104
 // -231 <= nums[i] <= 231 - 1
 // 0 <= k <= 105
+var rotateArray = function (arr, start, end) {
+  while (start < end) {
+    let temp = arr[start];
+    arr[start] = arr[end];
+    arr[end] = temp;
+    start++;
+    end--;
+  }
+};
 
 var rotate = function (nums, k) {
-  for (let i = 0; i < k; i++) {
-    // remove last value from array
-    let value = nums.pop();
-    // add the value to the front of the array
-    nums.unshift(value);
-  }
-  return nums;
+  let len = nums.length;
+  // normalize the rotations
+  k = k % len;
+
+  // rotate the entire array
+  rotateArray(nums, 0, len - 1);
+  // rotate the array until k
+  rotateArray(nums, 0, k - 1);
+  // rotate the second half of the array after k
+  rotateArray(nums, k, len - 1);
 };
+
+// Time: O(N)
+// Space: O(1)
