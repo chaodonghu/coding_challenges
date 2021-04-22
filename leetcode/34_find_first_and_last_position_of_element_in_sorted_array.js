@@ -31,33 +31,57 @@
  * @param {number[]} nums
  * @param {number} target
  * @return {number[]}
- */
+ /**
+  * @param {number[]} nums
+  * @param {number} target
+  * @return {number[]}
+  */
 var searchRange = function (nums, target) {
-  let left = 0;
-  let right = nums.length - 1;
+  if (nums.length === 0) return [-1, -1];
 
-  while (left < right) {
-    let mid = Math.floor(left + (right - left) / 2);
+  var findLeftIndex = function (arr, key) {
+    let left = 0;
+    let right = arr.length - 1;
+    let leftMostIndex = -1;
+    while (left <= right) {
+      const mid = Math.floor(left + (right - left) / 2);
 
-    if (nums[mid] < target) {
-      left = mid + 1;
-    } else {
-      right = mid;
-    }
-  }
-
-  if (nums[left] === target) {
-    let lastIndex = left;
-    for (let i = left + 1; i < nums.length; i++) {
-      if (nums[i] === target) {
-        lastIndex = i;
+      if (arr[mid] > key) {
+        right = mid - 1;
+      } else if (nums[mid] < key) {
+        left = mid + 1;
+      } else {
+        // occurance of the target num
+        leftMostIndex = mid;
+        // now keep searching the left portion
+        right = mid - 1;
       }
     }
-    return [left, lastIndex];
-  } else {
-    return [-1, -1];
-  }
-};
 
-// Time: O(N)
-// Space: O(1)
+    return leftMostIndex;
+  };
+
+  var findHighIndex = function (arr, key) {
+    let left = 0;
+    let right = arr.length - 1;
+    let rightMostIndex = -1;
+    while (left <= right) {
+      const mid = Math.floor(left + (right - left) / 2);
+
+      if (arr[mid] > key) {
+        right = mid - 1;
+      } else if (arr[mid] < key) {
+        left = mid + 1;
+      } else {
+        // occurance of the target num
+        rightMostIndex = mid;
+        // now keep searching the left portion
+        left = mid + 1;
+      }
+    }
+
+    return rightMostIndex;
+  };
+
+  return [findLeftIndex(nums, target), findRightIndex(nums, target)];
+};
