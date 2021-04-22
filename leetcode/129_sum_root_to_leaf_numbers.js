@@ -44,20 +44,95 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var sumNumbers = function(root) {
-    let sum = 0;
-    const transverseTree = (node,current) => {
-        if (!node) return;
-        current = current + node.val.toString();
-        if (!node.left && !node.right) {
-            sum = sum + parseInt(current,10);
-            return;
-        }
-
-        if (node.left) transverseTree(node.left, current);
-        if(node.right) transverseTree(node.right, current);
+var sumNumbers = function (root) {
+  let sum = 0;
+  const transverseTree = (node, current) => {
+    if (!node) return;
+    current = current + node.val.toString();
+    if (!node.left && !node.right) {
+      sum = sum + parseInt(current, 10);
+      return;
     }
-    transverseTree(root, 0);
 
-    return sum;
+    if (node.left) transverseTree(node.left, current);
+    if (node.right) transverseTree(node.right, current);
+  };
+  transverseTree(root, 0);
+
+  return sum;
+};
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumNumbers = function (root) {
+  let paths = [];
+
+  var makePaths = (node, currentPath, output) => {
+    if (!node) return output;
+
+    currentPath.push(node.val);
+
+    if (!node.right && !node.left) {
+      output.push(currentPath.slice().join(""));
+    }
+
+    if (node.right) {
+      makePaths(node.right, currentPath, output);
+    }
+
+    if (node.left) {
+      makePaths(node.left, currentPath, output);
+    }
+
+    currentPath.pop();
+  };
+
+  makePaths(root, [], paths);
+
+  return paths.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+};
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumNumbers = function (root) {
+  var traverseToLeaf = function (currentNode, pathSum) {
+    if (currentNode === null) {
+      return 0;
+    }
+
+    // calculate the path number of the current node
+    pathSum = 10 * pathSum + currentNode.val;
+
+    // if the current node is a leaf, return the current path sum
+    if (currentNode.left === null && currentNode.right === null) {
+      return pathSum;
+    }
+
+    // traverse the left and the right sub-tree
+    return (
+      traverseToLeaf(currentNode.left, pathSum) +
+      traverseToLeaf(currentNode.right, pathSum)
+    );
+  };
+  return traverseToLeaf(root, 0);
 };
