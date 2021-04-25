@@ -42,3 +42,33 @@ var rotate = function (matrix) {
 
   return matrix;
 };
+
+// Time: O(N)
+// Space; O(1)
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function (matrix) {
+  reverseArray(matrix);
+
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < row; col++) {
+      [matrix[row][col], matrix[col][row]] = [
+        matrix[col][row],
+        matrix[row][col],
+      ];
+    }
+  }
+};
+
+var reverseArray = function (array) {
+  let left = 0;
+  let right = array.length - 1;
+
+  while (left < right) {
+    [array[left], array[right]] = [array[right], array[left]];
+    left++;
+    right--;
+  }
+};

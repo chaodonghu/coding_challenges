@@ -18,29 +18,37 @@
  * @param {number[]} newInterval
  * @return {number[][]}
  */
-var insert = function(intervals, newInterval) {
-    let size = intervals.length;
-    let index = 0;
-    let result = [];
+var insert = function (intervals, newInterval) {
+  let size = intervals.length;
+  let index = 0;
+  let result = [];
 
-    // while we are still looping through and the end of the current interval is less than the start of the new interval
-    while (index < size && intervals[index][1] < newInterval[0]) {
-        result.push(intervals[index]);
-        index++;
-    }
+  // skip all intervals which end before the new interval start
+  while (index < size && intervals[index][1] < newInterval[0]) {
+    result.push(intervals[index]);
+    index++;
+  }
 
-    // while we are still looping through and the start of the current interval is less then the end of the new interval then set the new newInterval
-    while (index < size && intervals[index][0] <= newInterval[1]) {
-        newInterval[0] = Math.min(newInterval[0], intervals[index][0]);
-        newInterval[1] = Math.max(newInterval[1], intervals[index][1]);
-        index++;
-    }
+  // while we are still looping through and the start of the current interval is less then the end of the new interval then set the new newInterval
+  while (index < size && intervals[index][0] <= newInterval[1]) {
+    // the new interval's start needs to the be minimum of both starts
+    newInterval[0] = Math.min(newInterval[0], intervals[index][0]);
+    // te new interval's end needs to be the maximum of both ends
+    newInterval[1] = Math.max(newInterval[1], intervals[index][1]);
+    index++;
+  }
 
-    result.push(newInterval);
-    while (index < size) {
-        result.push(intervals[index]);
-        index++
-    }
+  // push this new interval into the result
+  result.push(newInterval);
 
-    return result;
+  // the rest of the intervals have a start after the new intervals end
+  while (index < size) {
+    result.push(intervals[index]);
+    index++;
+  }
+
+  return result;
 };
+
+// Time: O(N) we loop through all of the intervals once
+// Space; O(N) since our new interval array will be the size of the intervals array plus the new interval in the worst case
