@@ -36,24 +36,32 @@
   * @param {number} target
   * @return {number[]}
   */
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
 var searchRange = function (nums, target) {
-  if (nums.length === 0) return [-1, -1];
+  if (!nums.length) return [-1, -1];
 
-  var findLeftIndex = function (arr, key) {
+  // do a binary search for the left most index
+  var findLeftMostIndex = function (arr, key) {
     let left = 0;
     let right = arr.length - 1;
+
     let leftMostIndex = -1;
+
     while (left <= right) {
       const mid = Math.floor(left + (right - left) / 2);
 
+      // if the mid's element is greater than the key then search the left side
       if (arr[mid] > key) {
         right = mid - 1;
-      } else if (nums[mid] < key) {
+      } else if (arr[mid] < key) {
         left = mid + 1;
       } else {
-        // occurance of the target num
+        // our arr[mid] equals the target, then keep searching for the left most element on the left side of the array
         leftMostIndex = mid;
-        // now keep searching the left portion
         right = mid - 1;
       }
     }
@@ -61,10 +69,12 @@ var searchRange = function (nums, target) {
     return leftMostIndex;
   };
 
-  var findHighIndex = function (arr, key) {
+  var findRightMostIndex = function (arr, key) {
     let left = 0;
     let right = arr.length - 1;
+
     let rightMostIndex = -1;
+
     while (left <= right) {
       const mid = Math.floor(left + (right - left) / 2);
 
@@ -73,9 +83,8 @@ var searchRange = function (nums, target) {
       } else if (arr[mid] < key) {
         left = mid + 1;
       } else {
-        // occurance of the target num
+        // if our arr[mid] equals the target, then keep searching for the right most element on the right side of the array
         rightMostIndex = mid;
-        // now keep searching the left portion
         left = mid + 1;
       }
     }
@@ -83,5 +92,8 @@ var searchRange = function (nums, target) {
     return rightMostIndex;
   };
 
-  return [findLeftIndex(nums, target), findRightIndex(nums, target)];
+  return [findLeftMostIndex(nums, target), findRightMostIndex(nums, target)];
 };
+
+// Time: O(log N), we do a binary search twice, once for the left most index and another for the right most index
+// Space: O(1)
