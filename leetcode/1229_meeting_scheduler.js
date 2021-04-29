@@ -34,33 +34,39 @@
  * @return {number[]}
  */
 var minAvailableDuration = function (slots1, slots2, duration) {
+  // sort the meeting slots by the ascending order in terms of start time
   slots1.sort((a, b) => a[0] - b[0]);
   slots2.sort((a, b) => a[0] - b[0]);
 
-  let pointer1 = 0;
-  let pointer2 = 0;
+  let i = 0;
+  let j = 0;
 
-  while (pointer1 < slots1.length && pointer2 < slots2.length) {
-    let start1 = slots1[pointer1][0];
-    let end1 = slots1[pointer1][1];
-    let start2 = slots2[pointer2][0];
-    let end2 = slots2[pointer2][1];
+  while (i < slots1.length && j < slots2.length) {
+    // have our starts and ends deconstructed
+    let [start1, end1] = slots1[i];
+    let [start2, end2] = slots2[j];
 
-    let intersectStart = Math.max(start1, start2);
-    let intersectEnd = Math.min(end1, end2);
-    if (intersectStart + duration <= intersectEnd) {
-      return [intersectStart, intersectStart + duration];
+    // our intersection start will be the max of our starts
+    let intersectionStart = Math.max(start1, start2);
+    // our intersection end will be the min of the ends
+    let intersectionEnd = Math.min(end1, end2);
+
+    // if our intersection start plus the duration fits into our intersection interval
+    if (intersectionStart + duration <= intersectionEnd) {
+      return [intersectionStart, intersectionStart + duration];
     }
-    // if our first end is less than our second end then increase pointer 1
+    // if our first end is less than our second end then increase our first pointer, moving through our slots1 list
     else if (end1 < end2) {
-      pointer1++;
-    } else {
-      pointer2++;
+      i++;
+    }
+    // end2 is less than our first end therefore move the second pointer, since the interval in the slots1 is greater
+    else {
+      j++;
     }
   }
 
   return [];
 };
 
-// Time: O(MlogM + NlogN)
-// Space: O(1)
+// Time: O(MlogM + NlogN) since we need to sort then go through all of the intervals/elements in our slots
+// Space; O(1)
