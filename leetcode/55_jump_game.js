@@ -40,3 +40,17 @@ var canJump = function (nums) {
 
   return lastValidIndex === 0;
 };
+
+var canJump = function (nums) {
+  let max = nums[0];
+
+  for (let i = 1; i < nums.length; i++) {
+    if (max < i) return false;
+    max = Math.max(max, i + nums[i]);
+  }
+
+  return true;
+};
+
+// Time: O(N) since we iterate through every element in the array
+// Space: O(1)
