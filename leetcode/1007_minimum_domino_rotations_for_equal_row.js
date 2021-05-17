@@ -34,10 +34,14 @@
  * @return {number}
  */
 var minDominoRotations = function (A, B) {
+  // set A[0] as the target and find the minimum number of rotations to make all elements of A is the same
   const rotations = getRotations(A[0], A, B);
+  // if we don't return -1 where A and B cannot be flipped into the target
+  // or A and B are the same at index 0 then return our rotations
   if (rotations !== -1 || A[0] === B[0]) {
     return rotations;
   } else {
+    // set B[0] as our target and repeat if we can rotate
     return getRotations(B[0], A, B);
   }
 };
@@ -46,15 +50,23 @@ const getRotations = (target, A, B) => {
   let rotationA = 0;
   let rotationB = 0;
 
+  // loop through the A dominos
   for (let i = 0; i < A.length; i++) {
+    // if our element in A and element in B do not match the target, it is impossible to rotate so tops or bottoms are the same
     if (A[i] !== target && B[i] !== target) {
       return -1;
+      // if the top element is not equal to the target, that means the bottom one is, so rotate the top
     } else if (A[i] !== target) {
       rotationA++;
+      // if the bottom element is not equal to the target, that means the top one is, so rotate the bottom
     } else if (B[i] !== target) {
       rotationB++;
     }
   }
 
+  // return the minimum number of rotations of either top or bottom
   return Math.min(rotationA, rotationB);
 };
+
+// Time: O(N)
+// Space: O(1)
