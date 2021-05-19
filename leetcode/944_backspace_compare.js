@@ -84,7 +84,8 @@ var backspaceCompare = function(S, T) {
         }
     }
 
-    console.log('sStack', sStack);
-
     return sStack.toString() == tStack.toString()
 };
+
+// Time: O(N)
+// Space: O(N)
