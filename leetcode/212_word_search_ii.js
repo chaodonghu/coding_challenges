@@ -97,7 +97,6 @@ var findWords = function (board, words) {
   // build the trie with each node nested with each character, and at the leaf have the word
 
   function search(node, i, j) {
-    console.log('node', node);
     // if we reached the leaf node, and that node has a word property, push that into our result
     if (node.word) {
       res.push(node.word);
