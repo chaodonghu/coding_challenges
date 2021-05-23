@@ -55,3 +55,6 @@ var minSubArrayLen = function (target, nums) {
 
   return minLength != Number.MAX_SAFE_INTEGER ? minLength : 0;
 };
+
+// Time: O(N)
+// Space: O(1)
