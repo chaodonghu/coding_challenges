@@ -27,7 +27,7 @@ var subarraySum = function (nums, k) {
   let count = 0;
   // we will keep adding to our running sum
   let runningSum = 0;
-  // instantiate a map of all the sums possible counting from index 0;
+  // instantiate a map of all the sums and their occurances as we loop through the array
   let map = { 0: 1 };
 
   // loop through all our nums
@@ -49,3 +49,7 @@ var subarraySum = function (nums, k) {
 
 // Time: O(N)
 // Space: O(N)
+
+// The intuition is that if we have a running sum and the different between that running sum and the target is in our map
+// as we had previously had a running sum of that difference then we know that the indexes between the current running sum,
+// and it's difference (runningSum - target) will equate to the target
