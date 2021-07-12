@@ -30,55 +30,35 @@ var isIsomorphic = function (s, t) {
     return false;
   }
 
+  // instantiate two maps
   let sMap = {};
   let tMap = {};
 
+  // loop through the s string
   for (let i = 0; i < s.length; i++) {
+    // get the characters the index
     let sChar = s[i];
     let tChar = t[i];
 
+    // if the s map does not contain the letter then add the mapping into the s map of the current t char
     if (!sMap[sChar]) {
       sMap[sChar] = tChar;
     }
 
+    // if the t map does not contain the letter then add the mapping into the t map of the current s char
     if (!tMap[tChar]) {
       tMap[tChar] = sChar;
     }
 
+    // if the mapping is incorrect, then the character in s now maps to a different character in t therefore the strings are not isomorphic
     if (sMap[sChar] != tChar || tMap[tChar] != sChar) {
       return false;
     }
   }
   return true;
 };
-
-// Method #2; Map solution
-var isIsomorphic = function (s, t) {
-  if (s.length != t.length) {
-    return false;
-  }
-
-  let sMap = {};
-  let tMap = {};
-
-  for (let i = 0; i < s.length; i++) {
-    let sChar = s[i];
-    let tChar = t[i];
-
-    if (!sMap[sChar]) {
-      sMap[sChar] = tChar;
-    }
-
-    if (!tMap[tChar]) {
-      tMap[tChar] = sChar;
-    }
-
-    if (sMap[sChar] != tChar || tMap[tChar] != sChar) {
-      return false;
-    }
-  }
-  return true;
-};
+// Space: O(S)
+// Time: O(S)
 
 // Method #2: Array solution
 var isIsomorphic = function (s, t) {
