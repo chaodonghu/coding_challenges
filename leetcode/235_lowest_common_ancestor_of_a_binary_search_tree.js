@@ -67,20 +67,22 @@ var lowestCommonAncestor = function (root, p, q) {
 
 // Iterative
 var lowestCommonAncestor = function (root, p, q) {
-  let pVal = p.val;
-  let qVal = q.val;
-  let node = root;
+    let pVal = p.val;
+    let qVal = q.val;
+    let node = root;
 
-  while (node) {
-    let parentVal = node.val;
-    if (pVal > parentVal && qVal > parentVal) {
-      node = node.right;
-    } else if (pVal < parentVal && qVal < parentVal) {
-      node = node.left;
-    } else {
-      return node;
+    while (node) {
+        let parentVal = node.val;
+        // if both the p and q values are greater then it's parent value then search on the right of the BST
+        if (pVal > parentVal && qVal > parentVal) {
+            node = node.right;
+        } else if (pVal < parentVal && qVal < parentVal) {
+            // if both the pVal and qVal are less than it's parent value then the LCA must on the left subtree
+            node = node.left
+        } else {
+            return node;
+        }
     }
-  }
 };
 
 // Time: O(N)
