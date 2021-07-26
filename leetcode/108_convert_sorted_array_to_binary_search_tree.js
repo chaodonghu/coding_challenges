@@ -51,3 +51,31 @@ var sortedArrayToBST = function (nums) {
 
   return root;
 };
+
+// Time: O(N)
+// Space: O(N) for recursion stack
+
+var sortedArrayToBST = function (nums) {
+  if (!nums.length) return null;
+
+  var helper = function(left, right) {
+    // once our right pointer goes to the left of the left pointer then we are out of bounds
+    if (left > right) return null;
+
+    // get the mid in the array, this will be the root
+    let mid = Math.floor(left + (right - left) / 2);
+    let root = new TreeNode(nums[mid]);
+    // all the elements to the left of the root will fixate the left pointer and move the right pointer to the mid - 1
+    root.left = helper(left, mid - 1);
+    // all the elements to the right of the root will fixate the right pointer and move the left pointer to the mid + 1
+    root.right = helper(mid + 1, right);
+
+    return root;
+  }
+
+  // call our recursive function starting the left and right pointers at the bounds of the nums array
+  return helper(0, nums.length - 1);
+};
+
+// Time: O(N)
+// Space: O(N)
