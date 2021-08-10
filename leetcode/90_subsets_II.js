@@ -19,27 +19,24 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-var subsetsWithDup = function(nums) {
-    nums.sort();
+var subsetsWithDup = function (nums) {
+  nums.sort();
 
+  let output = [];
 
-    let output = [];
+  const pick = (current, start) => {
+    output.push(current);
 
-    const pick = (current, start) => {
-        output.push(current)
-
-        for (let i = start; i < nums.length; i++) {
-            if (i > start && nums[i] === nums[i - 1]) {
-                continue;
-            } else {
-                pick(current.concat(nums[i]), i + 1);
-            }
-
-
-        }
+    for (let i = start; i < nums.length; i++) {
+      if (i > start && nums[i] === nums[i - 1]) {
+        continue;
+      } else {
+        pick(current.concat(nums[i]), i + 1);
+      }
     }
+  };
 
-    pick([], 0);
+  pick([], 0);
 
-    return output;
+  return output;
 };
