@@ -32,29 +32,32 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var sumRootToLeaf = function(root) {
-    const binaries = [];
-    // do a preorder traversal (root -> left -> right)
-    const traverse = (node, str) => {
-        if (node === null) {
-            return;
-        }
-        // compose the binary string for the next node
-        const binary = `${str}${node.val}`;
-        // when visiting a leaf, add binary string to the array
-        if (!node.left && !node.right) {
-            binaries.push(binary);
-        }
-
-        traverse(node.left, binary);
-        traverse(node.right, binary);
+var sumRootToLeaf = function (root) {
+  const binaries = [];
+  // do a preorder traversal (root -> left -> right)
+  const traverse = (node, str) => {
+    if (node === null) {
+      return;
+    }
+    // compose the binary string for the next node
+    const binary = `${str}${node.val}`;
+    // when visiting a leaf, add binary string to the array
+    if (!node.left && !node.right) {
+      binaries.push(binary);
     }
 
-    traverse(root, '');
+    traverse(node.left, binary);
+    traverse(node.right, binary);
+  };
 
-    return binaries.reduce((sum, binary) => {
-        // add the sum from the binary conversion
-        sum += parseInt(binary, 2);
-        return sum;
-    }, 0)
+  traverse(root, "");
+
+  return binaries.reduce((sum, binary) => {
+    // add the sum from the binary conversion
+    sum += parseInt(binary, 2);
+    return sum;
+  }, 0);
 };
+
+// Time: O(N) we will have to visit each node
+// Space: O(H) where H is the tree height since we have to keep a recursion stack
