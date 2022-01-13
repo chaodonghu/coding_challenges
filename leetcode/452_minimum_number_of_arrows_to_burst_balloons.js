@@ -39,60 +39,34 @@
  * @param {number[][]} points
  * @return {number}
  */
-var findMinArrowShots = function (points) {
-  let removals = 0;
-
-  if (points.length < 1) return removals;
-
-  // sort the points by their starting coordinate
-  points.sort((a, b) => a[0] - b[0]);
-
-  let prevEnd = points[0][1];
-
-  for (let i = 1; i < points.length; i++) {
-    // get this start and end
-    let thisStart = points[i][0];
-    let thisEnd = points[i][1];
-
-    // if this start is less than or equal to the previous end
-    // (1) increment the removal counter
-    // (2) set the previous end to the min of prevEnd and thisEnd, remove the greater coordinate
-    if (thisStart <= prevEnd) {
-      removals++;
-      prevEnd = Math.min(prevEnd, thisEnd);
-    } else {
-      // set the previous end to this end, move forward
-      prevEnd = thisEnd;
-    }
-  }
-
-  return points.length - removals;
-};
-
 /**
  * @param {number[][]} points
  * @return {number}
  */
-var findMinArrowShots = function (points) {
-  if (!points.length) return 0;
 
-  // sort points by increasing order by endpoint
+// if we sort balloons by end coordinate then all other balloons have two possibilities
+// they either have a start coordinate less than the first end coordinate, or a start coordinate that is greater than the first end coordinate
+
+// We solve this problem utilizing a greedy method, where we pick a locally optimal move at each step
+var findMinArrowShots = function (points) {
+  if (!points) return 0;
+
+  // sort balloons by end coordinate
   points.sort((a, b) => a[1] - b[1]);
 
-  let res = 1;
-  // instantiate endpoint to be first endpoint
-  let end = points[0][1];
-
-  for (p of points) {
-    // if the start of the current point is less than or equal then the end then it overlaps
-    if (p[0] <= end) {
-      continue;
-    } else {
-      // does not overlap then increase shots and move endpoint to latest end
-      res++;
-      end = p[1];
+  let arrows = 1;
+  let firstEnd = points[0][1];
+  for (let [currStart, currEnd] of points) {
+    // if the current ballons start coordinate is greater than the first end coordinate, then increase the # of arrows
+    // and also update the first end
+    if (currStart > firstEnd) {
+      arrows += 1;
+      firstEnd = currEnd;
     }
   }
 
-  return res;
+  return arrows;
 };
+
+// Time: ONLogN
+// Space: O(N) for sort
