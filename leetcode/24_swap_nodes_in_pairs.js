@@ -34,12 +34,13 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-var swapPairs = function(head) {
+var swapPairs = function (head) {
   // instantiate new list node at beginning of linked list
-  head = new ListNode('dummy', head);
+  head = new ListNode("dummy", head);
   // node pointer
   let node = head;
 
+  // while we still have 3 nodes
   while (node && node.next && node.next.next) {
     let next1 = node.next;
     let next2 = next1.next;
@@ -48,9 +49,13 @@ var swapPairs = function(head) {
     node.next = next2;
     next2.next = next1;
     next1.next = next3;
-    // put node pointer now at next 1
+    // move the pointer to the next node
     node = next1;
   }
 
+  // skip the dummy node
   return head.next;
 };
+
+// Time: O(N)
+// Space: O(1)
