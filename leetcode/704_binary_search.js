@@ -25,22 +25,32 @@
  * @param {number} target
  * @return {number}
  */
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
 var search = function (nums, target) {
+  // instantiate two pointers
   let left = 0;
   let right = nums.length - 1;
 
+  // while our left pointer is less than or equal the right pointer
   while (left <= right) {
-    let mid = Math.floor((left + right) / 2);
-
+    // set our mid
+    let mid = Math.floor((right + left) / 2);
     if (target === nums[mid]) return mid;
-    if (target < nums[mid]) {
-      // if the mid is greater than target then move left pointer to mid + 1
-      right = mid - 1;
-    } else {
-      // if the mid is less than the element on the right then move right pointer as mid
+    if (target > nums[mid]) {
+      // target is on right side of mid
       left = mid + 1;
+    } else {
+      // target is on left side of mid
+      right = mid - 1;
     }
   }
-  // once the right pointer is greater than the left pointer than just return the element that the left pointer is on
+
   return -1;
 };
+
+// Time: O(log N)
+// Space: O(1)
