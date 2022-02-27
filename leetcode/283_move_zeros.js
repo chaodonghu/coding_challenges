@@ -13,16 +13,18 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var moveZeroes = function (nums) {
-  // anchor refers to the index in nums
   let anchor = 0;
 
+  // instantiate second pointer explorer to go through entire array
   for (let explorer = 0; explorer < nums.length; explorer++) {
+    // if the explorer pointer does not land on a zero, swap it
     if (nums[explorer] !== 0) {
-      // temp will always be 0;
+      // temp should always be a 0
       let temp = nums[anchor];
+      // swap the anchor zero with the index of the non zero element
       nums[anchor] = nums[explorer];
       nums[explorer] = temp;
-
+      // increase the index of the anchor as it will be where the zero is now
       anchor++;
     }
   }
