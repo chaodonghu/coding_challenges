@@ -28,27 +28,32 @@
 // 1 <= nums.length <= 2 * 104
 // -231 <= nums[i] <= 231 - 1
 // 0 <= k <= 105
-var rotateArray = function (arr, start, end) {
-  while (start < end) {
-    let temp = arr[start];
-    arr[start] = arr[end];
-    arr[end] = temp;
-    start++;
-    end--;
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var rotateArray = function (nums, left, right) {
+  while (left < right) {
+    let temp = nums[left];
+    nums[left] = nums[right];
+    nums[right] = temp;
+    left++;
+    right--;
   }
+
+  return nums;
 };
-
 var rotate = function (nums, k) {
-  let len = nums.length;
-  // normalize the rotations
-  k = k % len;
+  // k could be greater than the length of the array
+  k = k % nums.length;
 
-  // rotate the entire array
-  rotateArray(nums, 0, len - 1);
-  // rotate the array until k
-  rotateArray(nums, 0, k - 1);
-  // rotate the second half of the array after k
-  rotateArray(nums, k, len - 1);
+  // first rotate entire array (eg. [1,2,3,4,5,6,7] -> [7, 6, 5, 4, 3, 2, 1], k = 3)
+  let firstRotation = rotateArray(nums, 0, nums.length - 1);
+  // rotate left portion up to k (eg. [7, 6, 5, 4, 3, 2, 1] -> [5, 6, 7, 4, 3, 2, 1],  k = 3)
+  let leftHalf = rotateArray(firstRotation, 0, k - 1);
+  // rotate right portion starting from k (eg. [5, 6, 7, 4, 3, 2, 1] -> [5, 6, 7, 1, 2, 3, 4],  k = 3)
+  return rotateArray(leftHalf, k, nums.length - 1);
 };
 
 // Time: O(N)
