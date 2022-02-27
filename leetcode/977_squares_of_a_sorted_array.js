@@ -24,27 +24,35 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-var sortedSquares = function (A) {
-  const res = [];
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var sortedSquares = function (nums) {
+  let result = [];
 
-  // positive portion of array
-  let i = 0;
-  while (A[i] < 0) i++;
+  // instantiate two pointers
+  let left = 0;
+  let right = nums.length - 1;
 
-  // negative portion of array
-  let j = i - 1;
-  // j pointer should be greater than 0 (starting at left)
-  // i pointer should be less than array (starting at right)
-  while (j >= 0 || i < A.length) {
-    // if the i pointer is greater than the length
-    // if the negatation of the value of the right left pointer is less than or equal to the value of the right pointer
-    if (i >= A.length || -A[j] <= A[i]) {
-      // push to positive portion of array
-      res.push(A[j--] ** 2);
+  // while our two pointers don't cross
+  while (left <= right) {
+    // if the square of the left pointer numbers is greater than the square of the right pointer numbers
+    // add the result of the square of the left numbers to the beginnng of the array
+    if (nums[left] ** 2 > nums[right] ** 2) {
+      result.unshift(nums[left] ** 2);
+      left++;
     } else {
-      // push to negative portion of array
-      res.push(A[i++] ** 2);
+      // shrink our pointers and add the square of the right pointers
+      result.unshift(nums[right] ** 2);
+      right--;
     }
   }
-  return res;
+
+  // we will always add the higher of the square of the two pointer numbers to the beginning of the array
+
+  return result;
 };
+
+// Time: O(N)
+// Space: O(N)
