@@ -50,14 +50,29 @@ var isSubsequence = function (s, t) {
 };
 
 // two pointer solution
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
 var isSubsequence = function (s, t) {
-  let i = 0,
-    j = 0;
-  while (j < t.length) {
-    if (s[i] === t[j]) {
-      i++;
+  // set two pointers to start at 0 index
+  let sPointer = 0;
+  let tPointer = 0;
+
+  // while the second pointer hasn't reached the end of the t string
+  while (tPointer < t.length) {
+    // if our firstPointer equals the character of the secondPointer move the firstPointer
+    if (s[sPointer] === t[tPointer]) {
+      sPointer++;
     }
-    j++;
+    // always move our tPointer
+    tPointer++;
   }
-  return i === s.length ? true : false;
+
+  // if our sPointer equates to the full length of the s string then we know that we have moved the pointer so that s is a subsequence of t
+  return sPointer === s.length;
 };
+
+// Time: O(N)
+// Space: O(1)
