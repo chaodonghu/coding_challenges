@@ -34,18 +34,34 @@
  * @param {number} target
  * @return {number[]}
  */
-var twoSum = function(numbers, target) {
-    let head = 0;
-    let tail = numbers.length - 1;
+/**
+ * @param {number[]} numbers
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (numbers, target) {
+  // set two pointers
+  let head = 0;
+  let tail = numbers.length - 1;
 
-    while (head < tail) {
-        let sum = numbers[head] + numbers[tail];
-        if (sum === target) {
-            return [head + 1, tail + 1];
-        } else if (sum < target) {
-            head++;
-        } else {
-            tail--;
-        }
+  // while the head pointer does not reach the end of the numbers array
+  while (head < numbers.length) {
+    let sum = numbers[head] + numbers[tail];
+
+    // if the elements at our pointers equal the target, return the indexes
+    if (sum === target) {
+      return [head + 1, tail + 1];
     }
+
+    // if the sum of our elements at our pointers is less than our target than move our head pointer
+    if (sum < target) {
+      head++;
+    } else {
+      // decrease the tail pointer
+      tail--;
+    }
+  }
 };
+
+// Time: O(N)
+// Space: O(1)
