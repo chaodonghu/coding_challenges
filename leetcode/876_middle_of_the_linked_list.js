@@ -32,12 +32,30 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-var middleNode = function(head) {
-    let array = [head];
-    while (array[array.length - 1].next != null)
-        array.push(array[array.length - 1].next);
-    return array[Math.trunc(array.length / 2)];
+var middleNode = function (head) {
+  let array = [head];
+  while (array[array.length - 1].next != null)
+    array.push(array[array.length - 1].next);
+  return array[Math.trunc(array.length / 2)];
 };
 
 // Time: O(N) -> Go through every node once
 // Space: O(N) -> Array is proportional to the number of nodes
+
+
+// Two pointer approach with a slow and fast pointer
+// Fast pointer will traverse twice as fast as the slow pointer, once the slow pointer reaches the end, we know that the slow pointer is in the middle
+var middleNode = function (head) {
+  let slow = head;
+  let fast = head;
+
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  return slow;
+};
+
+// Time: O(N) -> Go through every node once
+// Space: O(1)
