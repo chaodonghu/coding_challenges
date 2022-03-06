@@ -21,32 +21,38 @@
  * @param {string} s
  * @return {number}
  */
+/**
+ * @param {string} s
+ * @return {number}
+ */
 var lengthOfLongestSubstring = function (s) {
+  // initialize a new set that will hold our characters
   let set = new Set();
+  // set up our window pointers
   let left = 0;
   let right = 0;
   let maxSubstringLength = 0;
 
-  // until the right pointer reaches the length of the string
+  // while our right pointer hasn't reached the end of the string
   while (right < s.length) {
-    // if we don't have a duplicate character
+    // if our set does not have the character at our right pointer
     if (!set.has(s.charAt(right))) {
-      // at right pointer character to the set
+      // add the character to the set
       set.add(s.charAt(right));
-      // update max substring length either current max or size of non duplicate set
-      maxSubstringLength = Math.max(maxSubstringLength, set.size);
-      // increase right pointer
+      // increaes our window moving the right pointer
       right++;
     } else {
-      // remove the character at the left from non duplicate set
+      // delete the character at our left pointer which should equal the character at our right pointer from our set
       set.delete(s.charAt(left));
-      // increase left pointer
+      // shrink the window
       left++;
     }
+    // update our max substring length which is the size of our unique characters or the maximum substring length
+    maxSubstringLength = Math.max(set.size, maxSubstringLength);
   }
 
   return maxSubstringLength;
 };
 
-// Time: O(N) since we pass through the string twice with two pointers
-// Space: O(1) our set
+// Time: O(N) since we'll traverse all characters through our sliding window
+// Space: O(1)
