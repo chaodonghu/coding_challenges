@@ -53,25 +53,30 @@
  * @return {ListNode}
  */
 var removeNthFromEnd = function (head, n) {
-  let dummyNode = new ListNode(-1);
-  dummyNode.next = head;
-  let firstPointer = dummyNode;
-  let secondPointer = dummyNode;
+  // set a dummyNode, next pointer is set to the head of the list
+  let dummyNode = new ListNode(-1, head);
+  let leftPointer = dummyNode;
+  let rightPointer = head;
 
-  // move the first pointer to where n is (where we can the next to be cut off)
-  for (let i = 0; i <= n; i++) {
-    firstPointer = firstPointer.next;
+  // set the rightPointer to the offset n, so it's always n nodes away from the leftPointer
+  // do this with a loop
+  while (n > 0 && rightPointer) {
+    rightPointer = rightPointer.next;
+    n -= 1;
   }
 
-  // move both pointers until firstPointer is null
-  while (firstPointer) {
-    firstPointer = firstPointer.next;
-    secondPointer = secondPointer.next;
+  // while our rightPointer isn't null, move our pointers next
+  while (rightPointer) {
+    leftPointer = leftPointer.next;
+    rightPointer = rightPointer.next;
   }
 
-  // make the cut where the second pointer should now point to the correct node
-  secondPointer.next = secondPointer.next.next;
+  // delete the nth node by replacing the pointer
+  leftPointer.next = leftPointer.next.next;
 
-  // return our dummy node pointer.next
+  // return the new linkedlist
   return dummyNode.next;
 };
+
+// Time: O(N)
+// Space: O(1)
