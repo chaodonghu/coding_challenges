@@ -17,31 +17,55 @@
  * @param {ListNode} l2
  * @return {ListNode}
  */
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
 var mergeTwoLists = function (l1, l2) {
-  // instantiate new null node at beginning
-  let newList = new ListNode(-1, null);
-  let current = newList;
+  // make a new linked list with a dummy node
+  let dummy = new ListNode(-1);
+  let current = dummy;
 
-  // while l1 and l2 are not null
   while (l1 && l2) {
-    // if the l1 value is greater than l2 then point the current next to the l2 value
-    // increment l2 pointer
-    if (l1.val > l2.val) {
+    if (l1.val < l2.val) {
+      // currents next node is l1
+      current.next = l1;
+      // go onto the next node of the linked list
+      l1 = l1.next;
+    } else {
       current.next = l2;
       l2 = l2.next;
-    // l1 value is less than l2 value, point the current node to l2 value
-    // increment l1 value
-    } else {
-      current.next = l1;
-      l1 = l1.next;
     }
-
-    // after logic, increment the current pointer
+    // go to the next curent node
     current = current.next;
   }
 
-  // finally either l1 or l2 should still exist, append the rest of that linked list to the end of the current list
+  // we will have one node remaining
   current.next = l1 || l2;
 
-  return newList.next;
+  // return the next of the temp node
+  return dummy.next;
 };
+
+// Time: O(N)
+// Space: O(1)
