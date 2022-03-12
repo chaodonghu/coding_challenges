@@ -49,20 +49,17 @@
 // 0 -> 3 // dead then live
 
 let gameOfLife = (board) => {
-  // go through each cell in our board
-  for (let row = 0; row < board.length; row++) {
-    for (let col = 0; col < board[0].length; col++) {
-      // get the live cells surrounding the cell we are currently on, utilize helper function
-      let aliveNeighborsCount = aliveNeighbors(board, row, col);
+  // go through our board
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[0].length; j++) {
+      // get the live cells surrounding the cell we are currently on
+      let liveCells = aliveNeighbors(board, i, j);
       // if the current cell is live and has less than 2 live neighbours or more then 3 live neighbours then it dies
-      if (
-        board[i][j] === 1 &&
-        (aliveNeighborsCount < 2 || aliveNeighborsCount > 3)
-      ) {
+      if (board[i][j] === 1 && (liveCells < 2 || liveCells > 3)) {
         board[i][j] = 2;
       }
       // if the current cell is dead and it has more than 3 live neighbours then it becomes live
-      if (board[i][j] === 0 && aliveNeighborsCount === 3) {
+      if (board[i][j] === 0 && liveCells === 3) {
         board[i][j] = 3;
       }
       // leave any live cell with 2 or 3 live neighbours
@@ -78,8 +75,8 @@ let gameOfLife = (board) => {
   }
 };
 
-let aliveNeighbors = (board, rowIndex, colIndex) => {
-  let aliveNeighborsCount = 0;
+let aliveNeighbors = (board, i, j) => {
+  let count = 0;
   let directions = [
     [1, -1],
     [1, 0],
@@ -93,21 +90,17 @@ let aliveNeighbors = (board, rowIndex, colIndex) => {
   for (let [x, y] of directions) {
     // if we are out of bounds then skip
     if (
-      x + rowIndex < 0 ||
-      x + rowIndex > board.length - 1 ||
-      y + colIndex < 0 ||
-      y + colIndex > board[0].length - 1
+      x + i < 0 ||
+      x + i > board.length - 1 ||
+      y + j < 0 ||
+      y + j > board[0].length - 1
     ) {
       continue;
     }
     // if we have a neighbour that is live (it can be 1 or it can be 2 (it was live now it's dead))
-    if (
-      board[x + colIndex][y + rowIndex] === 1 ||
-      board[x + rowIndex][y + colIndex] === 2
-    )
-      aliveNeighborsCount++;
+    if (board[x + i][y + j] === 1 || board[x + i][y + j] === 2) count++;
   }
-  return aliveNeighborsCount;
+  return count;
 };
 
 // Time: O(M*N)
