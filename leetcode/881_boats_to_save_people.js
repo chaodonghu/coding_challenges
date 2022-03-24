@@ -3,6 +3,8 @@
  * @param {number} limit
  * @return {number}
  */
+
+// Theory is if the heaviest person can sit with the lightest person then group them together and increment the lightest person pointer, if not then decrement the heaviest person pointer since they will sit on the boat alone
 var numRescueBoats = function (people, limit) {
   // sort the weights in increasing order
   people.sort((a, b) => a - b);
@@ -27,3 +29,6 @@ var numRescueBoats = function (people, limit) {
 
   return boats;
 };
+
+// Time: O(log N)N
+// Space: O(N)
