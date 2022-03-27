@@ -66,3 +66,34 @@ var kWeakestRows = function (mat, k) {
 
   return solution;
 };
+
+/**
+ * @param {number[][]} mat
+ * @param {number} k
+ * @return {number[]}
+ */
+var kWeakestRows = function (mat, k) {
+  let soldiers = [];
+  for (let row = 0; row < mat.length; row++) {
+    let count = 0;
+    for (let col = 0; col < mat[0].length; col++) {
+      if (mat[row][col] === 1) {
+        count++;
+      }
+      if (col === mat[0].length - 1) {
+        soldiers.push([row, count]);
+        count = 0;
+      }
+    }
+  }
+
+  soldiers.sort((a, b) => a[1] - b[1]);
+
+  let output = [];
+
+  for (let i = 0; i < k; i++) {
+    output.push(soldiers[i][0]);
+  }
+
+  return output;
+};
