@@ -22,45 +22,59 @@
  * @return {number[]}
  */
 var generateMatrix = function (n) {
-  let nums = Array(n).fill().map(() => Array(n).fill());
+  let nums = Array(n)
+    .fill()
+    .map(() => Array(n).fill());
 
-  let rowBegin = 0;
-  let rowEnd = n - 1;
-  let columnBegin = 0;
-  let columnEnd = n - 1;
-  let size = n * n;
+  // setup our pointers
+  let topRow = 0;
+  let bottomRow = n - 1;
+  let leftColumn = 0;
+  let rightColumn = n - 1;
 
   let counter = 1;
 
   // if we are in our boundaries
-  while (rowBegin <= rowEnd && columnBegin <= columnEnd) {
+  while (topRow <= bottomRow && leftColumn <= rightColumn) {
     // traverse the top row from left to right
-    for (let i = columnBegin; i <= columnEnd; i++) {
-      nums[rowBegin][i] = counter;
+    for (let i = leftColumn; i <= rightColumn; i++) {
+      nums[topRow][i] = counter;
       counter++;
     }
-    rowBegin++;
-    // traverse the right column from top to bottom
-    for (let i = rowBegin; i <= rowEnd; i++) {
-      nums[i][columnEnd] = counter;
-      counter++;
-    }
-    columnEnd--;
+    // increase the row begin, next row
+    topRow++;
 
-    if (rowBegin <= rowEnd) {
+    // traverse the right column from top to bottom
+    for (let i = topRow; i <= bottomRow; i++) {
+      nums[i][rightColumn] = counter;
+      counter++;
+    }
+
+    // decrease the column end
+    rightColumn--;
+
+    // if we haven't overlapped our two row pointers
+    if (topRow <= bottomRow) {
       // traverse the bottom row from right to left
-      for (let i = columnEnd; i >= columnBegin; i--) {
-        nums[rowEnd][i] = counter;
+      for (let i = rightColumn; i >= leftColumn; i--) {
+        nums[bottomRow][i] = counter;
         counter++;
       }
-      rowEnd--;
+      // decrease the row end
+      bottomRow--;
+
       // traverse the left column from bottom to top
-      for (let i = rowEnd; i >= rowBegin; i--) {
-        nums[i][columnBegin] = counter;
+      for (let i = bottomRow; i >= topRow; i--) {
+        nums[i][leftColumn] = counter;
         counter++;
       }
-      columnBegin++;
+
+      // increase the column begin
+      leftColumn++;
     }
   }
   return nums;
 };
+
+// Time: O(N)
+// Space: O(N)
