@@ -1,82 +1,61 @@
-// You are given two arrays of positive integers, boxes and warehouse, representing the heights of some boxes of unit width and the heights of n rooms in a warehouse respectively. The warehouse's rooms are labelled from 0 to n - 1 from left to right where warehouse[i] (0-indexed) is the height of the ith room.
+// Given the root of a binary tree, flatten the tree into a "linked list":
 //
-// Boxes are put into the warehouse by the following rules:
-//
-// Boxes cannot be stacked.
-// You can rearrange the insertion order of the boxes.
-// Boxes can only be pushed into the warehouse from left to right only.
-// If the height of some room in the warehouse is less than the height of a box, then that box and all other boxes behind it will be stopped before that room.
-// Return the maximum number of boxes you can put into the warehouse.
-//
+// The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+// The "linked list" should be in the same order as a pre-order traversal of the binary tree.
 //
 //
 // Example 1:
 //
 //
-// Input: boxes = [4,3,4,1], warehouse = [5,3,3,4,1]
-// Output: 3
-// Explanation:
-//
-// We can first put the box of height 1 in room 4. Then we can put the box of height 3 in either of the 3 rooms 1, 2, or 3. Lastly, we can put one box of height 4 in room 0.
-// There is no way we can fit all 4 boxes in the warehouse.
+// Input: root = [1,2,5,3,4,null,6]
+// Output: [1,null,2,null,3,null,4,null,5,null,6]
 // Example 2:
 //
-//
-// Input: boxes = [1,2,2,3,4], warehouse = [3,4,1,2]
-// Output: 3
-// Explanation:
-//
-// Notice that it's not possible to put the box of height 4 into the warehouse since it cannot pass the first room of height 3.
-// Also, for the last two rooms, 2 and 3, only boxes of height 1 can fit.
-// We can fit 3 boxes maximum as shown above. The yellow box can also be put in room 2 instead.
-// Swapping the orange and green boxes is also valid, or swapping one of them with the red box.
+// Input: root = []
+// Output: []
 // Example 3:
 //
-// Input: boxes = [1,2,3], warehouse = [1,2,3,4]
-// Output: 1
-// Explanation: Since the first room in the warehouse is of height 1, we can only put boxes of height 1.
-// Example 4:
-//
-// Input: boxes = [4,5,6], warehouse = [3,3,3,3,3]
-// Output: 0
+// Input: root = [0]
+// Output: [0]
 //
 //
 // Constraints:
 //
-// n == warehouse.length
-// 1 <= boxes.length, warehouse.length <= 10^5
-// 1 <= boxes[i], warehouse[i] <= 10^9
-
+// The number of nodes in the tree is in the range [0, 2000].
+// -100 <= Node.val <= 100
+//
+//
+// Follow up: Can you flatten the tree in-place (with O(1) extra space)?
 /**
- * @param {number[]} boxes
- * @param {number[]} warehouse
- * @return {number}
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
  */
-
-// intuition is to try each box from descending order and if it fits into the room
-// such that the biggest boxes will fit into the warehouse first, with the smaller boxes being fit in last
-var maxBoxesInWarehouse = function (boxes, warehouse) {
-  // have the box pointer start at the greatest box
-  let boxPointer = boxes.length - 1;
-  // sort our boxes in ascending order
-  let sorted = boxes.sort((a, b) => a - b);
-  let count = 0;
-
-  // go through each room of the warehouse
-  for (let room of warehouse) {
-    // while we haven't reached the end of our boxes and the current box we are on fits into the room
-    while (boxPointer >= 0 && sorted[boxPointer] > room) {
-      boxPointer--;
-    }
-
-    // if we have exhausted all of our boxes
-    if (boxPointer === -1) return count;
-    count++;
-    boxPointer--;
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
+var flatten = function (root) {
+  if (root === null) return;
+  if (root.left) {
+    // step 1
+    let last = root.left;
+    // find the right most leaf of the current left node
+    while (last.right) last = last.right;
+    // step 2
+    // keep the current right node in a temp variable
+    var tmp = root.right;
+    // step 3
+    // move the left child to the right
+    root.right = root.left;
+    // step 4 connect the previous right node to the right of the most right leaf we found
+    last.right = tmp;
+    // step 5 make the current left null
+    root.left = null;
   }
 
-  return count;
+  flatten(root.right);
 };
-
-// Time: O(N log(N) + M) since we sort the boxes then iterate over each box and each room in the warehouse
-// Space; O(1)
