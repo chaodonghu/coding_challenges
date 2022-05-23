@@ -37,35 +37,35 @@
  *
  * @param {string} str
  */
-const getZeroOne = (str) => {
-  const { length } = str;
-  let zero = 0;
+
+// count the number of zeroes and ones in the string
+const countZeroesAndOnes = (str) => {
+  let zeroes = 0;
   for (let char of str) {
-    if (String(char) === "0") {
-      zero++;
+    if (char === "0") {
+      zeroes++;
     }
   }
+
   return {
-    zero,
-    one: length - zero,
+    zeroes,
+    ones: str.length - zeroes,
   };
 };
-/**
- * @param {string[]} strs
- * @param {number} m
- * @param {number} n
- * @return {number}
- */
-const findMaxForm = function (strs, m, n) {
-  const dp = Array(n + 1)
-    .fill(0)
-    .map(() => Array(m + 1).fill(0));
 
-  for (let i = 0; i < strs.length; i++) {
-    const { zero, one } = getZeroOne(strs[i]);
-    for (let j = n; j >= one; j--) {
-      for (let k = m; k >= zero; k--) {
-        dp[j][k] = Math.max(dp[j - one][k - zero] + 1, dp[j][k]);
+var findMaxForm = function (strs, m, n) {
+  // create dp
+  const dp = new Array(n + 1).fill(0).map(() => new Array(m + 1).fill(0));
+
+  // loop through the array of strings
+  for (let str of strs) {
+    const { zeroes, ones } = countZeroesAndOnes(str);
+
+    // decrement the m (zeroes) and n (ones)
+    for (let j = n; j >= ones; j--) {
+      for (let k = m; k >= zeroes; k--) {
+        // update our dp for each ones and zeros, add one to our subset
+        dp[j][k] = Math.max(dp[j - ones][k - zeroes] + 1, dp[j][k]);
       }
     }
   }
