@@ -32,7 +32,7 @@
 /**
  * @param {Iterator} iterator
  */
-var PeekingIterator = function(iterator) {
+var PeekingIterator = function (iterator) {
   this.iterator = iterator;
   this.nextVal = this.iterator.hasNext() ? this.iterator.next() : null;
 };
@@ -40,14 +40,14 @@ var PeekingIterator = function(iterator) {
 /**
  * @return {number}
  */
-PeekingIterator.prototype.peek = function() {
+PeekingIterator.prototype.peek = function () {
   return this.nextVal;
 };
 
 /**
  * @return {number}
  */
-PeekingIterator.prototype.next = function() {
+PeekingIterator.prototype.next = function () {
   let nextVal = this.nextVal;
   this.nextVal = this.iterator.hasNext() ? this.iterator.next() : null;
   return nextVal;
@@ -56,8 +56,51 @@ PeekingIterator.prototype.next = function() {
 /**
  * @return {boolean}
  */
-PeekingIterator.prototype.hasNext = function() {
+PeekingIterator.prototype.hasNext = function () {
   return !!this.nextVal;
+};
+
+var PeekingIterator = function (iterator) {
+  this.list = iterator;
+};
+
+/**
+ * @return {number}
+ */
+PeekingIterator.prototype.peek = function () {
+  if (this.top) {
+    return this.top;
+  }
+
+  // if our list has a next then reassign the top value and return it
+  if (this.list.hasNext()) {
+    this.top = this.list.next();
+    return this.top;
+  }
+  return false;
+};
+
+/**
+ * @return {number}
+ */
+PeekingIterator.prototype.next = function () {
+  if (this.top) {
+    let value = this.top;
+    this.top = null;
+    return value;
+  }
+
+  return this.list.next();
+};
+
+/**
+ * @return {boolean}
+ */
+PeekingIterator.prototype.hasNext = function () {
+  if (this.top) {
+    return true;
+  }
+  return this.list.hasNext();
 };
 
 /**

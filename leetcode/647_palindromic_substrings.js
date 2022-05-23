@@ -57,6 +57,7 @@ var countSubstrings = function (s) {
 var countSubstrings = function (s) {
   let count = 0;
   for (let start = 0; start < s.length; start++) {
+    // grow our sliding window
     for (let end = start; end < s.length; end++) {
       count += isPalindrome(s, start, end);
     }
@@ -65,6 +66,7 @@ var countSubstrings = function (s) {
   return count;
 };
 
+// check if window is a palindrome, if it is return 1 to add to our count, else return 0
 var isPalindrome = function (s, start, end) {
   while (start < end) {
     if (s.charAt(start) != s.charAt(end)) {
