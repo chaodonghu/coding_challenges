@@ -20,16 +20,16 @@
 var coinChange = function (coins, amount) {
   // instantiate a dp array a length of the amount and fill it with the maximum possible number
   const dp = new Array(amount + 1).fill(Number.MAX_VALUE);
-  // first element in the dp array is 0
+  // first element in the dp array is 0, since it will take 0 coins to sum up to 0
   dp[0] = 0;
 
   // loop through the dp array
-  // build the solution bottom up by solving subproblems, coins that equate all the way up to the amount
+  // build the solution bottom up by solving subproblems, each cell is a value that equate all the way up to the amount
   for (let a = 1; a < amount + 1; a++) {
     for (let coin of coins) {
       // if our amount subtracted by the coin we are on right now has a remainder or is 0
       if (a - coin >= 0) {
-        // add our current coin which is 1 and the subproblems
+        // the value of this current amount is the minimum of the # of coins or 1 + the # of coins it takes for it's remainder
         dp[a] = Math.min(dp[a], 1 + dp[a - coin]);
       }
     }
