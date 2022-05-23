@@ -15,7 +15,6 @@
 // Output: 6
 // Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
 
-
 /**
  * @param {string} s
  * @return {number}
@@ -79,3 +78,41 @@ var isPalindrome = function (s, start, end) {
 
   return 1;
 };
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+// Expand around center to left and right
+var countSubstrings = function (s) {
+  let count = 0;
+
+  // go through each character and expand
+  for (let i = 0; i < s.length; i++) {
+    // odd length palindromes, left and right pointers start at same position
+    count += countPalindromesAroundCenter(s, i, i);
+    // even length palindromes (start at length 2)
+    count += countPalindromesAroundCenter(s, i, i + 1);
+  }
+
+  return count;
+};
+
+var countPalindromesAroundCenter = (s, left, right) => {
+  let answer = 0;
+
+  while (
+    left >= 0 &&
+    right < s.length &&
+    s.charAt(left) === s.charAt(right)
+  ) {
+    answer += 1;
+    // expand outwards
+    left--;
+    right++;
+  }
+
+  return answer;
+};
+
+// Time: O(N^2)
