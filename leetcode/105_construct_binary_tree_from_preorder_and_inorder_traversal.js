@@ -11,6 +11,10 @@
  * @param {number[]} inorder
  * @return {TreeNode}
  */
+
+// preorder - NODE -> LEFT -> RIGHT - [3,9,1,2,20,15,7]
+// inorder - LEFT -> NODE - RIGHT - [1,9,2,3,15,20,7]
+
 var buildTree = function (preorder, inorder) {
   let build = (left, right) => {
     if (left > right) return null;
