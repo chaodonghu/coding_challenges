@@ -32,13 +32,14 @@ var rightSideView = function(root) {
         if (!node) return;
         // replace the index of the height with the node's value
         res[h] = node.val;
-        console.log('res', res);
-        // need to still do dfs on left node due to a tree that is strictly decreasing
+        // we need to still do dfs on left node due to a tree that is strictly decreasing
         dfs(node.left, h+1);
+        // once we go through all the left nodes, replace those values with the right nodes
         dfs(node.right, h+1);
     }
 
     let res = [];
+    // start at the height of 0
     dfs(root, 0);
     return res;
 };
