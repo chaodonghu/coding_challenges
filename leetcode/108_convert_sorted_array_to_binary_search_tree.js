@@ -78,4 +78,4 @@ var sortedArrayToBST = function (nums) {
 };
 
 // Time: O(N)
-// Space: O(N)
+// Space: O(log N) since the tree is height balanced
