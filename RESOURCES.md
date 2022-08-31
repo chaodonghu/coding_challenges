@@ -12,3 +12,5 @@
 
 
 ### System design
+
+- [1,000,000 Concurrent Connections](https://josephmate.github.io/2022-04-14-max-connections/)
