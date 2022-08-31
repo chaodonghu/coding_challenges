@@ -7,4 +7,8 @@
 ![](https://blog.thoughtspile.tech/images/interview-guide-464c7dad46bec92ed2e0139f9fce5dd3.png)
 
 
+- [Vladimir Klepov Blog](https://blog.thoughtspile.tech/)
+- [Software Engineering - The Soft Parts](https://addyosmani.com/blog/software-engineering-soft-parts/)
+
+
 ### System design
