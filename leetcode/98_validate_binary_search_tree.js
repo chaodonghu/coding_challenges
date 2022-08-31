@@ -42,14 +42,19 @@ var isValidBST = function (root) {
   if (!root) return true;
   // call dfs with a min and max number
   return dfs(root, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
-
-  function dfs(root, min, max) {
-    if (!root) return true;
-    // if the current node is less than our min or greater than our max
-    // we are at a node that doesn't satisfy a BST
-    if (root.val <= min || root.val >= max) return false;
-    // call our dfs on the left subtree with new max
-    // call our dfs on the right substree with our value as the min
-    return dfs(root.left, min, root.val) && dfs(root.right, root.val, max);
-  }
 };
+
+// traverse the tree
+var dfs = function (root, min, max) {
+  if (!root) return true;
+
+  // if the current root value is less than or equal to the minimum or greater than equal to the max then the tree is not a valid BST
+  if (root.val <= min || root.val >= max) return false;
+
+  // 1. dfs on the left subtree, our max should be the current root value (left subtree should be smaller than the root)
+  // 2. dfs on the right subtree, our min should be the current root value (right subtree should be larger than the root)
+  return dfs(root.left, min, root.val) && dfs(root.right, root.val, max);
+};
+
+// Time: O(N)
+// Space: O(N)
