@@ -9,7 +9,7 @@
 
 - [Vladimir Klepov Blog](https://blog.thoughtspile.tech/)
 - [Software Engineering - The Soft Parts](https://addyosmani.com/blog/software-engineering-soft-parts/)
-
+- [How To Use Multithreading in Node.js](https://www.digitalocean.com/community/tutorials/how-to-use-multithreading-in-node-js#introduction)
 
 ### System design
 
