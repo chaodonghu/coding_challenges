@@ -25,7 +25,6 @@
 // If all integer numbers from the stream are between 0 and 100, how would you optimize it?
 // If 99% of all integer numbers from the stream are between 0 and 100, how would you optimize it?
 
-
 const MedianFinder = function () {
   this.elements = [];
 };
@@ -53,14 +52,18 @@ MedianFinder.prototype.addNum = function (num) {
   this.elements.splice(low, 0, num);
 };
 
+// O (log n)
+
 /**
  * @return {number}
  */
 MedianFinder.prototype.findMedian = function () {
   const mid = Math.round((this.elements.length - 1) / 2);
+  // if length of the array is even that means the median is the average of the two middle numbers
   if (this.elements.length % 2 == 0) {
     return (this.elements[mid] + this.elements[mid - 1]) / 2;
   } else {
+    // if the length of the array is odd that means the median is the middle number
     return this.elements[mid];
   }
 };
