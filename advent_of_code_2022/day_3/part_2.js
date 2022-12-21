@@ -3,6 +3,7 @@ const { input } = require("./input");
 const a_code = "a".charCodeAt(0);
 const A_code = "A".charCodeAt(0);
 
+// Find the intersection/common character in an array of strings
 const intersection = (...arrs) => {
   const counts = {};
   for (let arr of arrs) {
