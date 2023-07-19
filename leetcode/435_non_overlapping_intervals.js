@@ -57,3 +57,6 @@ var eraseOverlapIntervals = function (intervals) {
 
   return removals;
 };
+
+// Time: O(NlogN) since we spend O(logN) time for the sorting of the intervals then O(N) time going through each element pair in the array of intervals
+// Space: O(1), since the sorting is done in place and the constants that we initiate to store the currentStart, currentEnd and previousEnd are O(1)
