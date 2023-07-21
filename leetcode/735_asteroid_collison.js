@@ -45,3 +45,47 @@ var asteroidCollision = function (asteroids) {
   // The stack should be the answer
   return s;
 };
+
+/**
+ * @param {number[]} asteroids
+ * @return {number[]}
+ */
+var asteroidCollision = function (asteroids) {
+  const stack = [];
+
+  for (let a of asteroids) {
+
+      // while we have a stack, asteroid is positive and the top of the stack is positive
+      while (stack.length > 0 && a < 0 && stack[stack.length - 1] > 0) {
+          // find the diff between the asteroid and the top of the stack
+          const diff = a + stack[stack.length - 1];
+
+          // if diff is negative, asteroid is going to win that means destroy the asteroid in the stack
+          // asteroid is moving left is going to win
+          if (diff < 0) {
+              stack.pop();
+        // if diff is positive then the asteroid on top of stack is going to win, asteroid moving right is going to win
+        // set it to 0 so it won't be added to the stack
+          } else if (diff > 0) {
+              a = 0;
+        // destroy both asteroids
+          } else {
+              a = 0;
+              stack.pop();
+          }
+      
+      }
+
+      // only add truthy asteroids to the stack
+      if (a) {
+          stack.push(a);
+      }
+  }
+
+  return stack;
+
+};
+
+
+// Time: O(N)
+// Space: O(N)
