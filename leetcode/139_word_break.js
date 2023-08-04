@@ -20,11 +20,7 @@
 // Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 // Output: false
 
-/**
- * @param {string} s
- * @param {string[]} wordDict
- * @return {boolean}
- */
+
 var wordBreak = function (s, wordDict) {
   // create a set with the words
   const words = new Set(wordDict);
@@ -49,3 +45,41 @@ var wordBreak = function (s, wordDict) {
   // if the starts has the word length at the end
   return starts.has(s.length);
 };
+
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {boolean}
+ */
+var wordBreak = function(s, wordDict) {
+  let map = {};
+
+  wordDict.forEach((word) => {
+    map[word] = true;
+  })
+
+  let n = s.length;
+  let dp = new Array(n + 1).fill(false);
+  // each coordinate in the dp represents the index of the original string and if that index is true then there is a segmentation of that string in the word dict
+  dp[0] = true; // since this will be the start of the string
+
+
+  // sliding window
+  for (let i = 1; i <= n; i++) {
+    for (let j = 0; j < i; j++) {
+      // j will go up to i
+      // if (dp[j]) is true then we already found a segmentation of the string
+      // if map[s.substring(j, i)] is true that means we found the substring in the string
+      if (dp[j] && map[s.substring(j, i)]) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+
+  // dp[n] means that the entire word can be segmented
+  return dp[n];
+};
+
+// Time: O(N)
+// Space: O(N)
