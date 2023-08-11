@@ -31,24 +31,39 @@
 // the number of coins is less than 500
 // the answer is guaranteed to fit into signed 32-bit integer
 
-/**
- * @param {number} amount
- * @param {number[]} coins
- * @return {number}
- */
-var change = function(amount, coins) {
-  const coinLength = coins.length
+var change = function (amount, coins) {
+  // each column/index in the dp array represents if we have a coin or combinations of coins that can add up to that column/index
+  let dp = new Array(amount + 1).fill(0);
 
-  const DP = Array(amount + 1).fill(0)
+  // base case
+  dp[0] = 1; // since we will always have one way to make up 0 (not selecting any coins)
 
-  DP[0] = 1
-
-  for (const coin of coins) {
+  // Loop through the coins
+  for (coin of coins) {
+    // column represents the current coin since the coin cannot represent anything less
+    // increase the column until we hit the maximum amount
     for (let col = coin; col <= amount; col++) {
-      // populate the column/index with the previous value (subproblem)
-      DP[col] += DP[col - coin]
+      // the # of coins that make up this column will be the addition of the column minus the coin's value
+      dp[col] += dp[col - coin];
     }
   }
-    // take the last index of the dp
-    return DP[amount]
+
+  return dp[amount];
 };
+
+// amount = 5, coins = [1,2,5]
+// each index presents the # of coins that make up that columns value
+// [ 1, 0, 0, 0, 0, 0 ]
+// [ 1, 1, 0, 0, 0, 0 ]
+// [ 1, 1, 1, 0, 0, 0 ]
+// [ 1, 1, 1, 1, 0, 0 ]
+// [ 1, 1, 1, 1, 1, 0 ]
+// [ 1, 1, 1, 1, 1, 1 ]
+// [ 1, 1, 2, 1, 1, 1 ]
+// [ 1, 1, 2, 2, 1, 1 ]
+// [ 1, 1, 2, 2, 3, 1 ]
+// [ 1, 1, 2, 2, 3, 3 ]
+// [ 1, 1, 2, 2, 3, 4 ]
+
+// Time: O(N * amount)
+// Space O(amount) since we have a dp with each column representing the # of coins that make up that amount
