@@ -34,3 +34,6 @@ function copyRandomList(head) {
 
   return copy(head);
 }
+
+// Time: O(N)
+// Space O(N) for the map/dictionary
