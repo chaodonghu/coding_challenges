@@ -77,5 +77,49 @@ var findMode = function (root) {
   return res;
 };
 
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var findMode = function(root) {
+    let modesMap = {};
+
+    var dfs = function(node) {
+        if (!node) return;
+
+        let key = node.val.toString();
+
+        modesMap[key] = (modesMap[key] || 0) + 1;
+        dfs(node.left);
+        dfs(node.right);
+    }
+    // Step 1: do a dfs on the root node to gather all the modes into our mode map
+    dfs(root);
+
+    // Step 2: now go through our modes map and find the max number
+    let maxNumber = 0;
+    let res = [];
+    
+    for (key in modesMap) {
+        if (modesMap[key] > maxNumber) {
+            maxNumber = modesMap[key];
+            res = [key];
+        } else if (modesMap[key] === maxNumber) {
+            maxNumber = modesMap[key];
+            res = [key, ...res]
+        }
+    }
+
+    return res;
+};
+
 // Time Complexity: O(N) go through entire BST and then our mode object
 // Space Complexity: O(N)
