@@ -56,3 +56,20 @@ var climbStairs = function (n) {
 
   return current;
 };
+
+// dp solution
+var climbStairs = function(n) {
+    let dp = new Array(n + 1).fill(0);
+
+    // to get to the first step there is only one way
+    dp[1] = 1;
+    // to get to the second step there are two ways (1 + 1 or 2)
+    dp[2] = 2;
+
+    // every subsequent step is the sum of the previous two steps
+    for (let i = 3; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+};
