@@ -20,56 +20,36 @@
 //
 // 2 <= nums.length <= 104
 // 1 <= nums[i] <= 104
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
 
-// Brute force
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
 var findErrorNums = function (nums) {
-  let dup = -1;
   let missing = -1;
-  for (let i = 1; i <= nums.length; i++) {
-    let count = 0;
-    for (let j = 0; j < nums.length; j++) {
-      if (nums[j] == i) count++;
-    }
-    if (count == 2) dup = i;
-    else if (count == 0) missing = i;
+  let duplicate = -1;
 
-    if (dup > 0 && missing > 0) {
-      break;
-    }
-  }
-  return [dup, missing];
-};
+  // initiate a map to store the frequencies of the numbers
+  let frequencies = new Map();
 
-// Time: O(N^2) since we traverse over the nums array of size n for each of the numbers from 1 to n
-// Space: O(1)
-
-var findErrorNums = function (nums) {
-  let map = {};
-  let dup = -1;
-  let missing = 1;
+  // go through the nums array and store the frequencies
   for (let num of nums) {
-    map[num] = (map[num] || 0) + 1;
+    frequencies.set(num, (frequencies.get(num) || 0) + 1);
   }
 
+  // iterate from 1 to nums.length and go through the frequencies map and obtain the missing and duplicate
   for (let i = 1; i <= nums.length; i++) {
-    if (map[i] === 2) {
-      dup = i;
+    if (frequencies.get(i) === 2) {
+      duplicate = i;
     }
 
-    if (!map[i]) {
+    if (!frequencies.has(i)) {
       missing = i;
     }
   }
-  return [dup, missing];
+
+  return [duplicate, missing];
 };
 
-// Time: O(N^2) since we traverse over the nums array of size n for each of the numbers from 1 to n
+// Time: O(N) since we traverse over the nums array of size n for each of the numbers from 1 to n
 // Space: O(1)
