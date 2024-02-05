@@ -13,23 +13,21 @@
  * @return {number}
  */
 var firstUniqChar = function (s) {
-  // hashmap at most will contain all letters of the alphabet (26 key-value pairs)
-  let characterCount = {};
+  let charMap = new Map();
 
-  // loop through string once
-  for (let i = 0; i < s.length; i++) {
-    const char = s[i];
-    characterCount[char] = characterCount[char] + 1 || 1;
+  // count frequencies for each character in s
+  for (char of s) {
+    charMap.set(char, (charMap.get(char) || 0) + 1);
   }
 
-  // loop through string again to return back index
+  // go through the string starting at 0 index to find the first character which frequency equals one
   for (let i = 0; i < s.length; i++) {
-    const char = s[i];
-    if (characterCount[char] === 1) {
+    if (charMap.get(s[i]) === 1) {
       return i;
     }
   }
 
+  // if there is no character in the string whose frequency is 1 then return -1;
   return -1;
 };
 
