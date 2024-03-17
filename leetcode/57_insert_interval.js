@@ -52,3 +52,29 @@ var insert = function (intervals, newInterval) {
 
 // Time: O(N) we loop through all of the intervals once
 // Space; O(N) since our new interval array will be the size of the intervals array plus the new interval in the worst case
+
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} newInterval
+ * @return {number[][]}
+ */
+var insert = function (intervals, newInterval) {
+  let [start, end] = newInterval;
+
+  let left = [];
+  let right = [];
+
+  for (let [first, last] of intervals) {
+    // current interval is smaller than new interval, push to the left side of the array
+    if (last < start) left.push([first, last]);
+    // current interval is larger than new interval, push to the right side of the array
+    else if (first > end) right.push([first, last]);
+    // there is overlap, update our start and end of the new interval to be merged
+    else {
+      start = Math.min(start, first);
+      end = Math.max(end, last);
+    }
+  }
+
+  return [...left, [start, end], ...right];
+};
