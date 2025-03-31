@@ -1,5 +1,3 @@
-// https://www.greatfrontend.com/interviews/study/airbnb/questions/javascript/backbone-model
-
 // You are free to use alternative approaches of
 // defining BackboneModel as long as the
 // default export can be instantiated.
@@ -11,6 +9,7 @@ export default class BackboneModel {
   constructor(initialValues) {
     // initial values is an object
     this.initialValues = initialValues || {};
+    this.events = [];
   }
 
   /**
@@ -20,7 +19,7 @@ export default class BackboneModel {
    */
   get(attribute) {
     if (this.initialValues[attribute]) {
-      return this.initivalValues[attribute];
+      return this.initialValues[attribute];
     }
 
     return undefined;
@@ -64,7 +63,9 @@ export default class BackboneModel {
    * @param {any} [context] - The context in which to execute the callback.
    */
   on(eventName, attribute, callback, context) {
-    throw "Not implemented!";
+    this.events.push({ eventName, attribute, callback, context });
+
+    callback.call(context);
   }
 
   /**
@@ -74,6 +75,13 @@ export default class BackboneModel {
    * @param {Function} callback - The callback function to remove.
    */
   off(eventName, attribute, callback) {
-    throw "Not implemented!";
+    callback.call(context);
+
+    this.events = this.events.filter(
+      (event) =>
+        event.eventName !== eventName ||
+        event.attribute !== attribute ||
+        event.callback !== callback
+    );
   }
 }
