@@ -6,10 +6,17 @@ export default class BackboneModel {
    * @param {Object} initialValues
    * @returns BackboneModel
    */
-  constructor(initialValues) {
-    // initial values is an object
-    this.initialValues = initialValues || {};
-    this.events = [];
+  constructor(initialValues = {}) {
+    this._attributes = new Map();
+    Object.entries(initialValues).forEach(([attribute, value]) => {
+      this._attributes.set(attribute, {
+        value,
+        events: {
+          change: [],
+          unset: [],
+        },
+      });
+    });
   }
 
   /**
@@ -18,11 +25,7 @@ export default class BackboneModel {
    * @returns {any | undefined} The value of the attribute.
    */
   get(attribute) {
-    if (this.initialValues[attribute]) {
-      return this.initialValues[attribute];
-    }
-
-    return undefined;
+    return this._attributes.get(attribute)?.value;
   }
 
   /**
@@ -31,7 +34,31 @@ export default class BackboneModel {
    * @param {any} value - The value to set for the attribute.
    */
   set(attribute, value) {
-    this.initialValues[attribute] = value;
+    const attributeData = this.has(attribute)
+      ? this._attributes.get(attribute)
+      : {
+          value,
+          events: {
+            change: [],
+            unset: [],
+          },
+        };
+
+    // Only invoke callbacks if there's a change in the values.
+    if (attributeData.value !== value) {
+      // Invoke callbacks listening for the `change` event.
+      attributeData.events.change.forEach((callback) => {
+        callback.fn.call(
+          callback.context ?? null,
+          attribute,
+          value,
+          attributeData.value
+        );
+      });
+    }
+
+    attributeData.value = value;
+    this._attributes.set(attribute, attributeData);
   }
 
   /**
@@ -40,11 +67,7 @@ export default class BackboneModel {
    * @returns {boolean} `true` if the model has the attribute, `false` otherwise.
    */
   has(attribute) {
-    if (this.initialValues[attribute]) {
-      return true;
-    }
-
-    return false;
+    return this._attributes.has(attribute);
   }
 
   /**
@@ -52,7 +75,18 @@ export default class BackboneModel {
    * @param {string} attribute - The attribute name to unset.
    */
   unset(attribute) {
-    delete this.initialValues[attribute];
+    const attributeData = this._attributes.get(attribute);
+    // No-op for non-existent attributes.
+    if (attributeData == null) {
+      return;
+    }
+
+    // Invoke callbacks listening for the `unset` event.
+    attributeData.events.unset.forEach((callback) => {
+      callback.fn.call(callback.context ?? null, attribute);
+    });
+    // Remove the attribute entirely.
+    this._attributes.delete(attribute);
   }
 
   /**
@@ -63,9 +97,17 @@ export default class BackboneModel {
    * @param {any} [context] - The context in which to execute the callback.
    */
   on(eventName, attribute, callback, context) {
-    this.events.push({ eventName, attribute, callback, context });
+    const attributeData = this._attributes.get(attribute);
+    // No-op for non-existent attributes.
+    if (attributeData == null) {
+      return;
+    }
 
-    callback.call(context);
+    // Add to the list of callbacks.
+    attributeData.events[eventName].push({
+      fn: callback,
+      context,
+    });
   }
 
   /**
@@ -75,13 +117,15 @@ export default class BackboneModel {
    * @param {Function} callback - The callback function to remove.
    */
   off(eventName, attribute, callback) {
-    callback.call(context);
+    const attributeData = this._attributes.get(attribute);
+    // No-op for non-existent attributes.
+    if (attributeData == null) {
+      return;
+    }
 
-    this.events = this.events.filter(
-      (event) =>
-        event.eventName !== eventName ||
-        event.attribute !== attribute ||
-        event.callback !== callback
+    // Remove from the added list of callbacks.
+    attributeData.events[eventName] = attributeData.events[eventName].filter(
+      ({ fn }) => fn !== callback
     );
   }
 }
