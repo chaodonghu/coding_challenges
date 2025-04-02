@@ -1,130 +1,83 @@
-// You are free to use alternative approaches of
-// defining BackboneModel as long as the
-// default export can be instantiated.
 export default class BackboneModel {
-  /**
-   * @param {Object} initialValues
-   * @returns BackboneModel
-   */
   constructor(initialValues = {}) {
-    this._attributes = new Map();
-    Object.entries(initialValues).forEach(([attribute, value]) => {
-      this._attributes.set(attribute, {
+
+    // instantiate a new map
+    this.attributes = new Map();
+
+    // for each key in the initialValues object, set the key in the attributes map
+    for (const [key, value] of Object.entries(initialValues)) {
+      this.attributes.set(key, {
         value,
-        events: {
-          change: [],
-          unset: [],
-        },
+        //  events are an object with change and unset arrays
+        // change = { fn: function, context: object }
+        // unset = { fn: function, context: object }
+        events: { change: [], unset: [] },
       });
-    });
+    }
   }
 
-  /**
-   * Get the value of a specific attribute.
-   * @param {string} attribute - The attribute name.
-   * @returns {any | undefined} The value of the attribute.
-   */
+  // get the value of an attribute
   get(attribute) {
-    return this._attributes.get(attribute)?.value;
+    return this.attributes.get(attribute)?.value;
   }
 
-  /**
-   * Set the value of a specific attribute.
-   * @param {string} attribute - The attribute name.
-   * @param {any} value - The value to set for the attribute.
-   */
-  set(attribute, value) {
-    const attributeData = this.has(attribute)
-      ? this._attributes.get(attribute)
-      : {
-          value,
-          events: {
-            change: [],
-            unset: [],
-          },
-        };
+  // set the value of an attribute
+  set(attribute, newValue) {
+    // get the existing value of the attribute
+    const existing = this.attributes.get(attribute);
 
-    // Only invoke callbacks if there's a change in the values.
-    if (attributeData.value !== value) {
-      // Invoke callbacks listening for the `change` event.
-      attributeData.events.change.forEach((callback) => {
-        callback.fn.call(
-          callback.context ?? null,
-          attribute,
-          value,
-          attributeData.value
+    if (existing) {
+      // if the value has changed, trigger the change event
+      if (existing.value !== newValue) {
+        // trigger the change event for each listener
+        existing.events.change.forEach(({ fn, context }) =>
+          // change is fired with the attribute name, the new value, and the old value
+          fn.call(context ?? null, attribute, newValue, existing.value)
         );
+        // update the value of the attribute
+        existing.value = newValue;
+      }
+    } else {
+      // if the attribute does not exist, create it
+      this.attributes.set(attribute, {
+        value: newValue,
+        events: { change: [], unset: [] },
       });
     }
-
-    attributeData.value = value;
-    this._attributes.set(attribute, attributeData);
   }
 
-  /**
-   * Check if the model has a specific attribute.
-   * @param {string} attribute - The attribute name.
-   * @returns {boolean} `true` if the model has the attribute, `false` otherwise.
-   */
   has(attribute) {
-    return this._attributes.has(attribute);
+    return this.attributes.has(attribute);
   }
 
-  /**
-   * Unset a specific attribute.
-   * @param {string} attribute - The attribute name to unset.
-   */
   unset(attribute) {
-    const attributeData = this._attributes.get(attribute);
-    // No-op for non-existent attributes.
-    if (attributeData == null) {
-      return;
-    }
+    const data = this.attributes.get(attribute);
+    if (!data) return;
 
-    // Invoke callbacks listening for the `unset` event.
-    attributeData.events.unset.forEach((callback) => {
-      callback.fn.call(callback.context ?? null, attribute);
-    });
-    // Remove the attribute entirely.
-    this._attributes.delete(attribute);
+    data.events.unset.forEach(({ fn, context }) =>
+      // unset is fired with the attribute name
+      fn.call(context ?? null, attribute)
+    );
+    // delete the attribute from the attributes map
+    this.attributes.delete(attribute);
   }
 
-  /**
-   * Register an event listener for changes to a specific attribute.
-   * @param {string} eventName - The event name.
-   * @param {string} attribute - The attribute name to listen for changes.
-   * @param {Function} callback - The callback function to be executed on the event.
-   * @param {any} [context] - The context in which to execute the callback.
-   */
+  // add a listener for an event
   on(eventName, attribute, callback, context) {
-    const attributeData = this._attributes.get(attribute);
-    // No-op for non-existent attributes.
-    if (attributeData == null) {
-      return;
-    }
+    const data = this.attributes.get(attribute);
+    if (!data) return;
 
-    // Add to the list of callbacks.
-    attributeData.events[eventName].push({
-      fn: callback,
-      context,
-    });
+    // add the listener to the events array
+    data.events[eventName]?.push({ fn: callback, context });
   }
 
-  /**
-   * Remove an event listener for changes to a specific attribute.
-   * @param {string} eventName - The event name.
-   * @param {string} attribute - The attribute name to stop listening for changes.
-   * @param {Function} callback - The callback function to remove.
-   */
   off(eventName, attribute, callback) {
-    const attributeData = this._attributes.get(attribute);
-    // No-op for non-existent attributes.
-    if (attributeData == null) {
-      return;
-    }
+    const data = this.attributes.get(attribute);
+    if (!data) return;
 
-    // Remove from the added list of callbacks.
-    attributeData.events[eventName] = attributeData.events[eventName].filter(
+    // remove the listener from the events array
+    // events contain  an array of { fn: function, context: object }
+    data.events[eventName] = data.events[eventName].filter(
       ({ fn }) => fn !== callback
     );
   }
