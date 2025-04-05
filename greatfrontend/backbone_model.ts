@@ -14,6 +14,7 @@ interface IBackboneModel {
   off(eventName: EventName, attribute: string, callback: Function): void;
 }
 
+// Define the callbackData and AttributeData types
 type CallbackData = { fn: Function; context: any };
 type AttributeData = {
   value: unknown;
@@ -27,10 +28,13 @@ type AttributeData = {
 // defining BackboneModel as long as the
 // default export can be instantiated.
 export default class BackboneModel implements IBackboneModel {
+  // define a new type for attributes
   _attributes: Map<string, AttributeData>;
 
   constructor(initialValues: Record<string, unknown> = {}) {
+    // initialize the attributes map
     this._attributes = new Map();
+    // iterate over the initial values
     Object.entries(initialValues).forEach(([attribute, value]) => {
       this._attributes.set(attribute, {
         value,
@@ -43,10 +47,12 @@ export default class BackboneModel implements IBackboneModel {
   }
 
   get(attribute: string): unknown | undefined {
+    // return the value of the attribute
     return this._attributes.get(attribute)?.value;
   }
 
   set(attribute: string, value: unknown): void {
+    // get the attribute data
     const attributeData: AttributeData = this.has(attribute)
       ? this._attributes.get(attribute)!
       : {
@@ -70,15 +76,19 @@ export default class BackboneModel implements IBackboneModel {
       });
     }
 
+    // update the value of the attribute
     attributeData.value = value;
+    // update the attributes map
     this._attributes.set(attribute, attributeData);
   }
 
   has(attribute: string): boolean {
+    // return true if the attribute exists
     return this._attributes.has(attribute);
   }
 
   unset(attribute: string): void {
+    // get the attribute data
     const attributeData = this._attributes.get(attribute);
     // No-op for non-existent attributes.
     if (attributeData == null) {
@@ -99,6 +109,7 @@ export default class BackboneModel implements IBackboneModel {
     callback: Function,
     context?: any
   ): void {
+    // get the attribute data
     const attributeData = this._attributes.get(attribute);
     // No-op for non-existent attributes.
     if (attributeData == null) {
@@ -113,6 +124,7 @@ export default class BackboneModel implements IBackboneModel {
   }
 
   off(eventName: EventName, attribute: string, callback: Function): void {
+    // get the attribute data
     const attributeData = this._attributes.get(attribute);
     // No-op for non-existent attributes.
     if (attributeData == null) {
