@@ -1,3 +1,5 @@
+//www.greatfrontend.com/interviews/study/airbnb/questions/javascript/backbone-model
+
 type EventName = "change" | "unset";
 
 interface IBackboneModel {

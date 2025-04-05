@@ -1,6 +1,6 @@
+//www.greatfrontend.com/interviews/study/airbnb/questions/javascript/backbone-model
 export default class BackboneModel {
   constructor(initialValues = {}) {
-
     // instantiate a new map
     this.attributes = new Map();
 
