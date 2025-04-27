@@ -8,20 +8,60 @@ export default function Tabs({ defaultValue, items }) {
   // Generate a unique id for the tabs since there may be multiple instances of the tabs component on the same page
   const id = useId();
 
+  function setValueViaIndex(index) {
+    const newValue = items[index].value;
+    setValue(newValue);
+    document.getElementById(getTabListItemId(tabsId, newValue)).focus();
+  }
+
   return (
     <div className="tabs">
-      <div className="tabs-list" role="tablist">
+      <div
+        className="tabs-list"
+        role="tablist"
+        onKeyDown={(event) => {
+          switch (event.code) {
+            case "ArrowLeft": {
+              const index = items.findIndex(
+                ({ value: itemValue }) => itemValue === value
+              );
+              setValueViaIndex(
+                // Use modulo to wrap around to the end if necessary.
+                (index - 1 + items.length) % items.length
+              );
+              break;
+            }
+            case "ArrowRight": {
+              const index = items.findIndex(
+                ({ value: itemValue }) => itemValue === value
+              );
+              // Use modulo to wrap around to the start if necessary.
+              setValueViaIndex((index + 1) % items.length);
+              break;
+            }
+            case "Home": {
+              // Set the first item ias the active item.
+              setValueViaIndex(0);
+              break;
+            }
+            case "End": {
+              // Set the last item ias the active item.
+              setValueViaIndex(items.length - 1);
+              break;
+            }
+            default:
+              break;
+          }
+        }}
+      >
         {items.map(({ label, value: itemValue }) => {
-          const isActiveValue = itemValue === currentTab;
+          const isActiveValue = itemValue === value;
 
           return (
             <button
+              id={getTabListItemId(tabsId, itemValue)}
               key={itemValue}
-              id={getTabListItemId(id, itemValue)}
               type="button"
-              role="tab"
-              aria-selected={isActiveValue ? "true" : "false"}
-              aria-controls={getTabPanelId(id, itemValue)}
               className={[
                 "tabs-list-item",
                 isActiveValue && "tabs-list-item--active",
@@ -29,25 +69,27 @@ export default function Tabs({ defaultValue, items }) {
                 .filter(Boolean)
                 .join(" ")}
               onClick={() => {
-                setTab(itemValue);
+                setValue(itemValue);
               }}
+              role="tab"
+              tabIndex={isActiveValue ? 0 : -1}
+              aria-controls={getTabPanelId(tabsId, itemValue)}
+              aria-selected={isActiveValue}
             >
               {label}
             </button>
           );
         })}
       </div>
-      // Display content of tabs
       <div>
         {items.map(({ panel, value: itemValue }) => (
-          // Hide content of tabs that are not active
-          //   Divs have a hidden attribute
           <div
             key={itemValue}
-            hidden={itemValue !== currentTab}
-            id={getTabPanelId(id, itemValue)}
+            tabIndex={0}
+            id={getTabPanelId(tabsId, itemValue)}
+            aria-labelledby={getTabListItemId(tabsId, itemValue)}
             role="tabpanel"
-            aria-labelledby={getTabListItemId(id, itemValue)}
+            hidden={itemValue !== value}
           >
             {panel}
           </div>
