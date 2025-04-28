@@ -36,9 +36,34 @@ Accessibility is an important factor for making good Tabs components. The ARIA A
 - [Tab – Ariakit](https://ariakit.org/components/tab)
 - [Tabs | Reach UI](https://reach.tech/tabs)
 
-# Tabs - Part 2
+# Tabs - Part 2 (https://www.greatfrontend.com/interviews/study/airbnb/questions/user-interface/tabs-ii)
 
-# Tabs - Part 3
+Note: This is an advanced version of Tabs, you should complete that question first before attempting this question.
+
+Tabs are a set of layered sections of content, known as tab panels, that display one panel of content at a time. Each tab panel has an associated tab element, that when activated, displays the panel. The list of tab elements is arranged along one edge of the currently displayed panel, most commonly the top edge.
+
+Source: Tabs Pattern | ARIA Authoring Practices Guide
+
+In Tabs, we built a functional tabs component that displays one panel of content at a time depending on the active tab element. However, building good UI components goes beyond functionality and we have to ensure our components have great accessibility as well by adding the right ARIA roles, states, and properties to the DOM elements.
+
+### Requirements
+The ARIA Authoring Practices Guide has a long list of guidelines for the ARIA roles, states, and properties to add to the various elements of a tabs component.
+
+Implement the following guidelines for this question:
+
+- The element that serves as the container for the set of tabs has role tablist.
+- Each element that serves as a tab has role tab and is contained within the element with role tablist.
+- Each element that contains the content panel for a tab has role tabpanel.
+- Each element with role tab has the property aria-controls referring to its associated tabpanel element.
+- The active tab element has the state aria-selected set to true and all other tab elements have it set to false.
+- Each element with role tabpanel has the property aria-labelledby referring to its associated tab element.
+
+It is also important that we use a <button> element to build the tabs as they need to be focusable and interactive.
+
+### Notes
+The skeleton code uses the solution of Tabs, but you are free to use your own solution as a starting point.
+
+# Tabs - Part 3 (https://www.greatfrontend.com/interviews/study/airbnb/questions/user-interface/tabs-iii)
 
 Note: This is an advanced version of Tabs II, you should complete that question first before attempting this question. This question is not available in Vanilla JavaScript as it will require a fair bit of code to add keyboard interactions without a JavaScript framework.
 
