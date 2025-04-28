@@ -1,4 +1,4 @@
-# Tabs Component Implementation
+# Tabs - Part 1
 
 ## Overview
 Implementing a basic (not fully accessible) Tabs component in React is quite simple due to the fact that only one state value is needed - the currently active tab item. React also helps to keep the state and the UI in sync, which is more troublesome to do in Vanilla JavaScript.
@@ -35,3 +35,28 @@ Accessibility is an important factor for making good Tabs components. The ARIA A
 - [Tabs - Headless UI](https://headlessui.com/react/tabs)
 - [Tab – Ariakit](https://ariakit.org/components/tab)
 - [Tabs | Reach UI](https://reach.tech/tabs)
+
+# Tabs - Part 2
+
+# Tabs - Part 3
+
+Note: This is an advanced version of Tabs II, you should complete that question first before attempting this question. This question is not available in Vanilla JavaScript as it will require a fair bit of code to add keyboard interactions without a JavaScript framework.
+
+In Tabs II, we built a functional Tabs component that has the necessary WAI-ARIA roles, states, and properties. For a completely accessible Tabs component, we should also add the necessary keyboard interactions.
+
+### Requirements
+We'll be following a modified subset of the necessary keyboard interactions for Tabs. Note that the tabs component we're building is activated automatically on focus, so the respective tabpanel contents are shown as soon as the focus changes to a different tab.
+
+When Tab key is pressed:
+
+- When focus moves into the tab list, places focus on the active tab element.
+- When the tab list contains the focus, moves focus to the next element in the page tab sequence outside the tablist, which is the tabpanel.
+
+When focus is on a tab element in the tab list:
+- Left Arrow: moves focus to the previous tab. If focus is on the first tab, moves focus to the last tab.
+- Right Arrow: Moves focus to the next tab. If focus is on the last tab element, moves focus to the first tab.
+- Home: Moves focus to the first tab. Shows tabpanel content of the newly focused tab.
+- End: Moves focus to the last tab. Shows tabpanel content of the newly focused tab.
+
+### Notes
+The focus of this question is on adding keyboard functionality, not the styling. We have provided the solution to Tabs II here for you to build on top of. You can reuse the existing styling.
