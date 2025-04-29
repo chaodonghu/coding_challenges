@@ -1,18 +1,19 @@
-import { useState, useId } from "react";
+import { useId, useState } from "react";
 
-const getTabListItemId = (id: string, value: string) => `${id}-tab-${value}`;
-const getTabPanelId = (id: string, value: string) => `${id}-panel-${value}`;
+const getTabListItemId = (id, value) => `${id}-tab-${value}`;
+const getTabPanelId = (id, value) => `${id}-panel-${value}`;
 
 export default function Tabs({ defaultValue, items }) {
-  const [currentTab, setTab] = useState(defaultValue ?? items[0].value);
-  // Generate a unique id for the tabs since there may be multiple instances of the tabs component on the same page
-  const id = useId();
+  const tabsId = useId();
+  const [value, setValue] = useState(defaultValue ?? items[0].value);
 
-  function setValueViaIndex(index) {
+  // Grab the index and set new value
+  const setValueViaIndex = (index) => {
     const newValue = items[index].value;
     setValue(newValue);
+    // focus on the element
     document.getElementById(getTabListItemId(tabsId, newValue)).focus();
-  }
+  };
 
   return (
     <div className="tabs">
@@ -22,6 +23,7 @@ export default function Tabs({ defaultValue, items }) {
         onKeyDown={(event) => {
           switch (event.code) {
             case "ArrowLeft": {
+              // Find the index of the current highlighted item
               const index = items.findIndex(
                 ({ value: itemValue }) => itemValue === value
               );
@@ -40,12 +42,12 @@ export default function Tabs({ defaultValue, items }) {
               break;
             }
             case "Home": {
-              // Set the first item ias the active item.
+              // Set the first item as the active item.
               setValueViaIndex(0);
               break;
             }
             case "End": {
-              // Set the last item ias the active item.
+              // Set the last item as the active item.
               setValueViaIndex(items.length - 1);
               break;
             }
@@ -72,7 +74,6 @@ export default function Tabs({ defaultValue, items }) {
                 setValue(itemValue);
               }}
               role="tab"
-              tabIndex={isActiveValue ? 0 : -1}
               aria-controls={getTabPanelId(tabsId, itemValue)}
               aria-selected={isActiveValue}
             >
@@ -85,7 +86,6 @@ export default function Tabs({ defaultValue, items }) {
         {items.map(({ panel, value: itemValue }) => (
           <div
             key={itemValue}
-            tabIndex={0}
             id={getTabPanelId(tabsId, itemValue)}
             aria-labelledby={getTabListItemId(tabsId, itemValue)}
             role="tabpanel"
