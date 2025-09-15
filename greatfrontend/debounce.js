@@ -29,3 +29,5 @@ const amy = {
 };
 
 amy.speak();
+
+// Resource: https://medium.com/@griffinmichl/implementing-debounce-in-javascript-eab51a12311e
