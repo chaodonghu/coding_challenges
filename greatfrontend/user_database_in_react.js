@@ -1,12 +1,11 @@
 import { useState } from "react";
 
-const generateId = (() => {
-  let id = 0;
-  return () => `${id++}`;
-})();
+// Generate a unique id
+const generateId = () => crypto.randomUUID();
 
 export default function App() {
-  const [selected, setSelected] = useState(null);
+  // Set states
+  const [selected, setSelected] = useState(null); // selected user id
   const [search, setSearch] = useState("");
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
@@ -53,6 +52,7 @@ export default function App() {
   };
 
   const handleCreate = () => {
+    // Append the user to the list
     setUsers([...users, { first, last, id: generateId() }]);
     setFirst("");
     setLast("");
@@ -60,7 +60,10 @@ export default function App() {
 
   const handleUpdate = () => {
     const newUsers = [...users];
+    // Grab the user from the list
     const foundUser = newUsers.find(({ id }) => selected === id);
+
+    // Update our first and last name
     foundUser.first = first;
     foundUser.last = last;
     setUsers(newUsers);
@@ -78,7 +81,10 @@ export default function App() {
   };
 
   const handleSubmit = (event) => {
+    // prevent default behavior on submission, prevent page reload
     event.preventDefault();
+
+    // Grab the form data
     const formData = new FormData(event.target, event.nativeEvent.submitter);
 
     const intent = formData.get("intent");
@@ -112,15 +118,17 @@ export default function App() {
   return (
     <form classname="app" onSubmit={handleSubmit}>
       <div className="root">
-        <label htmlFor="search">Search</label>
-        <input
-          id="search"
-          aria-label="Search users"
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search"
-        />
+        <label>
+          Search:
+          <input
+            id="search"
+            aria-label="Search users"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search"
+          />
+        </label>
         <select
           size={5}
           className="users-list"
